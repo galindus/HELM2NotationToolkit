@@ -174,3 +174,6 @@ target/
 
 
 helm2parser.log
+
+#NetBeans
+nb-configuration.xml
