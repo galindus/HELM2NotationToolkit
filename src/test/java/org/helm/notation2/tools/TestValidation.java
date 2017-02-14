@@ -23,17 +23,25 @@
  */
 package org.helm.notation2.tools;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.helm.chemtoolkit.CTKException;
 import org.helm.notation2.calculation.MoleculePropertyCalculator;
 import org.helm.notation2.exception.BuilderMoleculeException;
 import org.helm.notation2.exception.ChemistryException;
+import org.helm.notation2.exception.ConnectionNotationException;
+import org.helm.notation2.exception.GroupingNotationException;
+import org.helm.notation2.exception.MonomerException;
 import org.helm.notation2.exception.MonomerLoadingException;
 import org.helm.notation2.exception.NotationException;
 import org.helm.notation2.exception.ParserException;
+import org.helm.notation2.exception.PolymerIDsException;
 import org.helm.notation2.exception.ValidationException;
 import org.helm.notation2.parser.notation.HELM2Notation;
+import org.helm.notation2.parser.notation.connection.ConnectionNotation;
+import org.helm.notation2.parser.notation.polymer.HELMEntity;
+import org.helm.notation2.parser.notation.polymer.PolymerNotation;
 import org.jdom2.JDOMException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -54,6 +62,9 @@ public class TestValidation {
     test += "V2.0";
     Assert.assertTrue(Validation.validateGrouping(HELM2NotationUtils.readNotation(test)));
   }
+  
+ 
+
 
   @Test
   public void testValidationGroupingWithException() throws ParserException, JDOMException {
@@ -150,6 +161,32 @@ public class TestValidation {
     Assert.assertTrue(Validation.validateConnections(HELM2NotationUtils.readNotation(test)));
 
   }
+  
+  @Test
+  public void testConnectionMap2() throws NotationException, ChemistryException, ParserException, JDOMException {
+
+
+
+
+    String test =
+        "RNA1{R(U)P.R(T)P.R(G)P.R(C)P.R(A)}$$$$";
+
+    test += "V2.0";
+   HELM2Notation helm =  HELM2NotationUtils.readNotation(test);
+
+
+List<ConnectionNotation> pc =
+helm.getListOfConnections();
+for (ConnectionNotation c: pc) {
+HELMEntity rna1= c.getSourceId();
+HELMEntity chem1=c.getTargetId();
+}
+
+
+  }
+  
+  
+  
 
   @Test
   public void testConnectionFalse() throws NotationException, ChemistryException, ParserException, JDOMException {
@@ -301,14 +338,25 @@ public class TestValidation {
   }
   
   
-  //@Test
-  public void testConnectionExtended() throws ParserException, JDOMException, NotationException, ChemistryException, MonomerLoadingException, ValidationException {
-	  String test = "PEPTIDE1{A.A.G}$PEPTIDE1,PEPTIDE1,(1,2):(R1,R2)-G:?$$$v2.0";
-	  
-	  //String test = "RNA1{R(A)P.R(G)P}$RNA1,RNA1,R(A)P:R3-G:R3$$$v2.0";
-	  
-	  //String test = "RNA1{R(A)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(C)P.R(C)P.R(C)P.R(C)}|PEPTIDE1{A.G.G.G.K.K.K.K}$RNA1,PEPTIDE1,(1,3):R1-1:R1$$$";
+  @Test
+  public void testConnectionAmbiguity() throws ParserException, JDOMException, NotationException, ChemistryException {
+	String test = "PEPTIDE1{A.T}|CHEM1{?}$PEPTIDE1,CHEM1,(1,2):R2-?:?$$$V2.0";
+	  HELM2Notation helm2 = HELM2NotationUtils.readNotation(test);
 
+	  Validation.validateConnections(helm2);
+  }
+  @Test
+  public void testConnectionAmbiguityRNA() throws ParserException, JDOMException, NotationException, ChemistryException, MonomerLoadingException, ValidationException {
+	// String test = "PEPTIDE1{A.A.G}$PEPTIDE1,PEPTIDE1,(1,2):R3-G:?$$$v2.0";
+	  
+	 //String test = "RNA1{R(A)P.R(G)P}$RNA1,RNA1,2:pair-G:pair$$$v2.0";
+	  
+	//String test = "RNA1{R(A)P.R(T)P.R(G)}|RNA2{R(C)P.R(A)P.R(U)}$RNA1,RNA2,8:pair-(5,C):pair$$$V2.0";
+	 //String test = "RNA1{R(A)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(C)P.R(C)P.R(C)P.R(C)}|PEPTIDE1{A.G.G.G.K.K.K.K}$RNA1,PEPTIDE1,(1,3):R1-1:R1$$$";
+
+
+	 
+	String test = "CHEM1{?}|PEPTIDE1{A.A.K.K.K.A.A}$CHEM1,PEPTIDE1,1:R1-(3,4,5):R3$$$V2.0";
 	  HELM2Notation helm2 = HELM2NotationUtils.readNotation(test);
 
 	  Validation.validateConnections(helm2);

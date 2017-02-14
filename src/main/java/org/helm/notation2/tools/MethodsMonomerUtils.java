@@ -230,7 +230,12 @@ public final class MethodsMonomerUtils {
                 monomer = generateTemporaryMonomer(id, type, info);
               }
             } else {
+            	if(!id.equals("?")){
               throw new MonomerException("Defined Monomer is not in the database and also not valid SMILES " + id);
+            	}
+            	else{
+            		return new Monomer(type,"Undefined",id, id);
+            	}
             }
 
             /* Add new monomer to the database */
