@@ -74,9 +74,8 @@ public final class HELM1Utils {
    * @param helm2notation HELM2Notation
    * @return standard HELM1
    * @throws HELM1FormatException if HELM2 features are there
-   * @throws NotationException if the notation objects can not be built
-   * @throws CTKException
-   * @throws MonomerLoadingException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws MonomerLoadingException monomers could not be loaded
    * @throws ValidationException if a smiles in the HELMNotation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
@@ -183,7 +182,6 @@ public final class HELM1Utils {
    * @return canonical HELM
    * @throws HELM1FormatException if HELM2 features are there
    * @throws ChemistryException if the Chemistry Engine can not be initialized
-   * @throws NotationException if the notation objects can not be built
    */
   public static String getCanonical(HELM2Notation helm2notation) throws HELM1FormatException, ChemistryException {
     Map<String, String> convertsortedIdstoIds;

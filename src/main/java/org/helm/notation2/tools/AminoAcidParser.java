@@ -52,18 +52,15 @@ public class AminoAcidParser {
   /**
    * This method converts peptide sequence into a List of amino acid
    *
-   * @param peptideSequence
+   * @param peptideSequence given peptide sequence
    * @return list of amino acid
-   * @throws org.helm.notation2.exception.MonomerException
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws java.io.IOException
-   * @throws org.jdom.JDOMException
-   * @throws MonomerLoadingException
-   * @throws ChemistryException
+   * @throws org.helm.notation2.exception.MonomerException if peptide contains unknown monomers
+   * @throws org.helm.notation2.exception.NotationException if peptide sequence is null
+   * @throws MonomerLoadingException monomer store could not be loaded
+   * @throws ChemistryException if chemistry could not be initialized
    */
   public static List<String> getAminoAcidList(String peptideSequence)
-      throws MonomerException, NotationException, IOException,
-      JDOMException, MonomerLoadingException, ChemistryException {
+      throws MonomerException, NotationException, MonomerLoadingException, ChemistryException {
 
     if (null == peptideSequence) {
       throw new NotationException("Peptide Sequence must be specified");
@@ -106,16 +103,14 @@ public class AminoAcidParser {
    * @param peptideSequence input sequence
    * @param delimiter optional delimeter in the input sequence
    * @return list of amino acid
-   * @throws MonomerException
-   * @throws NotationException
-   * @throws IOException
-   * @throws JDOMException
-   * @throws MonomerLoadingException
-   * @throws ChemistryException
+   * @throws MonomerException if monomer is not valid
+   * @throws NotationException if notation is not valid
+   * @throws MonomerLoadingException if monomer could not be read from the source
+   * @throws ChemistryException if chemistry could not be initialized
    */
   public static List<String> getAminoAcidList(String peptideSequence,
       String delimiter) throws MonomerException, NotationException,
-          IOException, JDOMException, MonomerLoadingException, ChemistryException {
+         MonomerLoadingException, ChemistryException {
 
     if (null == peptideSequence) {
       throw new NotationException("Peptide Sequence must be specified");
@@ -147,8 +142,8 @@ public class AminoAcidParser {
   /**
    * remove white space, and convert all lower case to upper case
    *
-   * @param sequence
-   * @return cleaned sequence
+   * @param sequence given sequence
+   * @return cleaned sequence without withspace and all characters are in uppercase
    */
   public static String cleanup(String sequence) {
     String result = sequence.replaceAll("\\s", ""); // remove all white

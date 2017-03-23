@@ -97,10 +97,13 @@ public final class Validation {
 	 * @throws ConnectionNotationException
 	 *             if the connection section is not valid
 	 * @throws NotationException
+	 *             if notation is not valid
 	 * @throws ChemistryException
 	 *             if the Chemistry Engine can not be initialized
 	 * @throws MonomerLoadingException
+	 *             monomers can not be loaded
 	 * @throws org.helm.notation2.parser.exceptionparser.NotationException
+	 *             if notation is not valid
 	 */
 	public static void validateNotationObjects(HELM2Notation helm2notation) throws PolymerIDsException,
 			MonomerException, GroupingNotationException, ConnectionNotationException, NotationException,
@@ -137,8 +140,9 @@ public final class Validation {
 	 * @throws ChemistryException
 	 *             if the Chemistry Engine can not be initialized
 	 * @throws MonomerLoadingException
+	 *             if monomer loading was not successfull
 	 * @throws org.helm.notation2.parser.exceptionparser.NotationException
-	 * @throws CTKException
+	 *             if notation is not valid
 	 */
 	protected static boolean validateMonomers(List<MonomerNotation> mon) throws ChemistryException,
 			MonomerLoadingException, org.helm.notation2.parser.exceptionparser.NotationException {
@@ -157,6 +161,7 @@ public final class Validation {
 	 *            HELM2Notation object
 	 * @return true if all connections are valid, false otherwise
 	 * @throws NotationException
+	 *             if notation is not valid
 	 * @throws ChemistryException
 	 *             if the Chemistry Engine can not be initialized
 	 */
@@ -252,7 +257,7 @@ public final class Validation {
 
 			return true;
 		} catch (PolymerIDsException | AttachmentException | HELM2HandledException | MonomerException | IOException
-				| JDOMException | org.helm.notation2.parser.exceptionparser.NotationException | CTKException e) {
+				| org.helm.notation2.parser.exceptionparser.NotationException | CTKException e) {
 			e.printStackTrace();
 			LOG.info(e.getMessage());
 			return false;
@@ -277,97 +282,96 @@ public final class Validation {
 	}
 
 	/**
-   * method to get all occurences of the MonomerNotation
-   *
-   * @param sourceUnit
-   * @param e HELMEntity of the sourceUnit
-   * @param helm2notation HELM2Notation object
-   * @return occurences of the MonomerNotation
-   * @throws org.helm.notation2.parser.exceptionparser.NotationException
-   * @throws IOException
-   * @throws AttachmentException
-   * @throws JDOMException
-   */
-  private static List<Integer> getOccurencesOfMonomerNotation(String sourceUnit, HELMEntity e,
-      HELM2Notation helm2notation) throws org.helm.notation2.parser.exceptionparser.NotationException,
-          IOException, AttachmentException, JDOMException {
-    List<Integer> occurences = new ArrayList<Integer>();
+	 * method to get all occurences of the MonomerNotation
+	 *
+	 * @param sourceUnit
+	 *            given monomernotation to look for
+	 * @param e
+	 *            HELMEntity of the sourceUnit
+	 * @param helm2notation
+	 *            HELM2Notation object
+	 * @return occurences of the MonomerNotation
+	 * @throws org.helm.notation2.parser.exceptionparser.NotationException
+	 * @throws AttachmentException
+	 *             if attachment is not valid
+	 */
+	private static List<Integer> getOccurencesOfMonomerNotation(String sourceUnit, HELMEntity e,
+			HELM2Notation helm2notation)
+					throws org.helm.notation2.parser.exceptionparser.NotationException, AttachmentException {
+		List<Integer> occurences = new ArrayList<Integer>();
 
-    /* The monomer's position in the polymer is specified */
-    try {
-      occurences.add(Integer.parseInt(sourceUnit));
-      return occurences;
-    } catch (NumberFormatException ex) {
-      MonomerNotation mon = ValidationMethod.decideWhichMonomerNotation(sourceUnit, e.getType());
-      /* it is only one monomer e.g. C */
-      if (mon instanceof MonomerNotationUnit) {
-        PolymerNotation polymerNotation = helm2notation.getPolymerNotation(e.getId());
-        /* monomer can also be unknown */
-        if (sourceUnit.equals("?")) {
-          return occurences;
-        }
-    
-       occurences.addAll(findElementInPolymer(sourceUnit, polymerNotation));
-        /* the specified monomer does not exist in the polymer */
-        if (occurences.isEmpty()) {
-          throw new AttachmentException("Monomer is not there");
-        }
-      } /* second: group (mixture or or) or list */ else if (mon instanceof MonomerNotationGroup || mon instanceof MonomerNotationList) {
-        PolymerNotation polymerNotation = helm2notation.getPolymerNotation(e.getId());
-        Map<String, String> elements = new HashMap<String, String>();
-        for (MonomerNotationGroupElement groupElement : ((MonomerNotationGroup) mon).getListOfElements()) {
-          elements.put(groupElement.getMonomerNotation().getUnit(), "");          
-        }
+		/* The monomer's position in the polymer is specified */
+		try {
+			occurences.add(Integer.parseInt(sourceUnit));
+			return occurences;
+		} catch (NumberFormatException ex) {
+			MonomerNotation mon = ValidationMethod.decideWhichMonomerNotation(sourceUnit, e.getType());
+			/* it is only one monomer e.g. C */
+			if (mon instanceof MonomerNotationUnit) {
+				PolymerNotation polymerNotation = helm2notation.getPolymerNotation(e.getId());
+				/* monomer can also be unknown */
+				if (sourceUnit.equals("?")) {
+					return occurences;
+				}
 
-        for(String e1 : elements.keySet()){
-        	try{
-        	int i = Integer.parseInt(e1)  ;
-        	elements.put(e1, "1");
-        		occurences.add(i);
-        	}
-        	catch(NumberFormatException ex1){
-        	 //have to be found in polymer 
-        		List<Integer> foundMonomers = findElementInPolymer(e1, polymerNotation);
-        		if(foundMonomers.size() > 0){
-            		elements.put(e1, "1");
-            		occurences.addAll(foundMonomers);
-        		}
+				occurences.addAll(findElementInPolymer(sourceUnit, polymerNotation));
+				/* the specified monomer does not exist in the polymer */
+				if (occurences.isEmpty()) {
+					throw new AttachmentException("Monomer is not there");
+				}
+			} /* second: group (mixture or or) or list */ else if (mon instanceof MonomerNotationGroup
+					|| mon instanceof MonomerNotationList) {
+				PolymerNotation polymerNotation = helm2notation.getPolymerNotation(e.getId());
+				Map<String, String> elements = new HashMap<String, String>();
+				for (MonomerNotationGroupElement groupElement : ((MonomerNotationGroup) mon).getListOfElements()) {
+					elements.put(groupElement.getMonomerNotation().getUnit(), "");
+				}
 
-        	}
-        }
-        if (occurences.size() < elements.size() || elements.containsValue("")) {
-            throw new AttachmentException("Not all Monomers are there");
-          }
-      }
-  
-      
-      return occurences;
-    }
-  }
+				for (String e1 : elements.keySet()) {
+					try {
+						int i = Integer.parseInt(e1);
+						elements.put(e1, "1");
+						occurences.add(i);
+					} catch (NumberFormatException ex1) {
+						// have to be found in polymer
+						List<Integer> foundMonomers = findElementInPolymer(e1, polymerNotation);
+						if (foundMonomers.size() > 0) {
+							elements.put(e1, "1");
+							occurences.addAll(foundMonomers);
+						}
+
+					}
+				}
+				if (occurences.size() < elements.size() || elements.containsValue("")) {
+					throw new AttachmentException("Not all Monomers are there");
+				}
+			}
+
+			return occurences;
+		}
+	}
 
 	private static List<Integer> findElementInPolymer(String e1, PolymerNotation polymerNotation) {
 		List occurences = new ArrayList<Integer>();
 		int j = 0;
-	    for (int i = 0; i < polymerNotation.getPolymerElements().getListOfElements().size(); i++) {
-	        	MonomerNotation el = polymerNotation.getPolymerElements().getListOfElements().get(i);
-	        	if(el instanceof MonomerNotationUnitRNA){
-	        		for(MonomerNotationUnit unit : ((MonomerNotationUnitRNA) el).getContents()){
-	        			j += 1;
-	        			if(unit.getUnit().equals(e1)){
-	        				occurences.add(j);
-	        			}
-	        			
-	        		}
-	        	}else{
-	        		j +=1;
-	        		 if (polymerNotation.getPolymerElements().getListOfElements().get(i).getUnit().equals(e1)) {
-	        	            occurences.add(i + 1);
-	        	      }
-	        	}
-	        }
-		
-		
-		
+		for (int i = 0; i < polymerNotation.getPolymerElements().getListOfElements().size(); i++) {
+			MonomerNotation el = polymerNotation.getPolymerElements().getListOfElements().get(i);
+			if (el instanceof MonomerNotationUnitRNA) {
+				for (MonomerNotationUnit unit : ((MonomerNotationUnitRNA) el).getContents()) {
+					j += 1;
+					if (unit.getUnit().equals(e1)) {
+						occurences.add(j);
+					}
+
+				}
+			} else {
+				j += 1;
+				if (polymerNotation.getPolymerElements().getListOfElements().get(i).getUnit().equals(e1)) {
+					occurences.add(i + 1);
+				}
+			}
+		}
+
 		return occurences;
 	}
 
@@ -446,6 +450,7 @@ public final class Validation {
 	 * @throws ChemistryException
 	 *             if the Chemistry Engine can not be initialized
 	 * @throws MonomerLoadingException
+	 *             if momomers can not be loaded
 	 * @throws org.helm.notation2.parser.exceptionparser.NotationException
 	 */
 	private static boolean isMonomerValid(String str, String type) throws ChemistryException, MonomerLoadingException,
@@ -526,19 +531,24 @@ public final class Validation {
 	 *
 	 * @param not
 	 *            MonomerNotation
+	 * @param position
+	 *            position of monomer notation
 	 * @return List of Monomer
 	 * @throws HELM2HandledException
 	 *             if HELM2 features were there
 	 * @throws MonomerException
-	 * @throws IOException
-	 * @throws JDOMException
+	 *             if monomer is not valid
 	 * @throws NotationException
+	 *             if notation is not valid
 	 * @throws ChemistryException
 	 *             if the Chemistry Engine can not be initialized
 	 * @throws CTKException
+	 *             general ChemToolKit exception passed to HELMToolKit
+	 * @throws MonomerLoadingException
+	 *             if monomer store can not be loaded
 	 */
 	public static List<Monomer> getAllMonomers(MonomerNotation not, int position) throws HELM2HandledException,
-			MonomerException, IOException, JDOMException, NotationException, ChemistryException, CTKException {
+			MonomerException, NotationException, ChemistryException, CTKException, MonomerLoadingException {
 		List<Monomer> monomers = new ArrayList<Monomer>();
 
 		MonomerFactory monomerFactory = MonomerFactory.getInstance();
@@ -591,15 +601,18 @@ public final class Validation {
 	 * @throws HELM2HandledException
 	 *             if HELM2 features were there
 	 * @throws MonomerException
-	 * @throws IOException
-	 * @throws JDOMException
+	 *             if monomer is not valid
 	 * @throws NotationException
+	 *             if notation is not valid
 	 * @throws ChemistryException
 	 *             if the Chemistry Engine can not be initialized
 	 * @throws CTKException
+	 *             general ChemToolKit exception passed to HELMToolKit
+	 * @throws MonomerLoadingException
+	 *             if monomers can not be loaded
 	 */
 	public static List<Monomer> getAllMonomersOnlyBase(MonomerNotation not) throws HELM2HandledException,
-			MonomerException, IOException, JDOMException, NotationException, ChemistryException, CTKException {
+			MonomerException, NotationException, ChemistryException, CTKException, MonomerLoadingException {
 		LOG.debug("Get base for " + not);
 		List<Monomer> monomers = new ArrayList<Monomer>();
 

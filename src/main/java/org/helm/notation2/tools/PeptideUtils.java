@@ -56,7 +56,6 @@ public final class PeptideUtils {
    * @throws HELM2HandledException if the polymer contains HELM2 features
    * @throws PeptideUtilsException if the polymer is not a peptide
    * @throws ChemistryException if the Chemistry Engine is not initialized
- * @throws CTKException 
    */
   public static String getNaturalAnalogueSequence(PolymerNotation polymer) throws HELM2HandledException, PeptideUtilsException, ChemistryException {
     checkPeptidePolymer(polymer);

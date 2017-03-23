@@ -197,6 +197,7 @@ public class Monomer implements Serializable {
   /**
    * get the natural analog of this monomer. For standard, unmodified monomer,
    * the natural analog should be itself
+   * @return natural analog of the monomer
    */
   public String getNaturalAnalog() {
     if (alternateId.length() == 1) {
@@ -279,13 +280,12 @@ public class Monomer implements Serializable {
    *
    * @param label - R1, R2...
    * @return MoleculeInfo for the cap group, R group will contribute nothing
-   * @throws IOException
-   * @throws PluginException
-   * @throws ChemistryException
-   * @throws CTKException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws ChemistryException if chemistry could not be initialized 
+   * @throws IOException if molecule can not be read
    */
-  public MoleculeProperty getCapMoleculeInfo(String label) throws IOException,
-       CTKException, ChemistryException {
+  public MoleculeProperty getCapMoleculeInfo(String label) throws 
+       CTKException, ChemistryException, IOException {
     for (Attachment attachment : attachmentList) {
       if (attachment.getLabel().equalsIgnoreCase(label)) {
         String capSmi = attachment.getCapGroupSMILES();
@@ -341,7 +341,7 @@ public class Monomer implements Serializable {
    * Compare this momoner with another one, polymerType, monomerType and
    * naturalAnalog (could be derived) must be the same to return true
    *
-   * @param m
+   * @param m monomer
    * @return true or false
    */
   public boolean isSameType(Monomer m) {

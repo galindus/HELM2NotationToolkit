@@ -260,13 +260,15 @@ public class NucleotideParser {
   }
 
   /**
-   * @param id
-   * @param i
-   * @return
-   * @throws ChemistryException
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws MonomerException
-   * @throws NucleotideLoadingException
+   * method to convert an string to an nucleotide
+   * @param id given input string
+   * @param last if the nucleotide is the last element of an rna
+   * @return nucleotide 
+   * @throws ChemistryException if the chemistry engine could not be initialized
+   * @throws org.helm.notation2.exception.NotationException if notation is not valid
+   * @throws MonomerException if the monomer is not valid
+   * @throws NucleotideLoadingException if nucleotides can not be loaded
+   * @throws org.helm.notation2.parser.exceptionparser.NotationException if the notation is not valid
    */
   public static Nucleotide convertToNucleotide(String id, boolean last) throws MonomerException, org.helm.notation2.exception.NotationException, ChemistryException, NucleotideLoadingException,
       NotationException {
@@ -335,9 +337,9 @@ public class NucleotideParser {
   }
 
   /**
-   * @param notation
-   * @return
-   * @throws org.helm.notation2.parser.exceptionparser.NotationException
+   * @param notation given notation
+   * @return count of rna monomers
+   * @throws org.helm.notation2.parser.exceptionparser.NotationException if notation is not valid
    */
   public static int getMonomerCountForRNA(String notation) throws org.helm.notation2.parser.exceptionparser.NotationException {
     return getMonomerIDListFromNucleotide(notation).size();
@@ -346,16 +348,9 @@ public class NucleotideParser {
   /**
    * validate RNA simple notation
    *
-   * @param polymerNotation
-   * @param monomerStore
-   * @return true or exception
-   * @throws org.helm.notation2.parser.exceptionparser.NotationException
-   * @throws java.io.IOException
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws org.helm.notation2.exception.MonomerException
-   * @throws org.helm.notation.StructureException
-   * @throws org.jdom.JDOMException
-   * @throws org.helm.notation2.parser.exceptionparser.NotationException
+   * @param polymerNotation notation to be checked
+   * @return true if the polymyer notation is valid, otherwise throws an exception
+   * @throws org.helm.notation2.parser.exceptionparser.NotationException if notation is not valid
    */
   public static boolean validateSimpleNotationForRNA(String polymerNotation) throws org.helm.notation2.parser.exceptionparser.NotationException {
     getMonomerIDListFromNucleotide(polymerNotation);

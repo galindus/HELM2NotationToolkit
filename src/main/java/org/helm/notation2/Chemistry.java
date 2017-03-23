@@ -106,7 +106,7 @@ public final class Chemistry {
    * method to get the singleton instance
    *
    * @return Chemistry
-   * @throws ChemistryException
+   * @throws ChemistryException if the Chemistry can not be initialized
    */
   public static Chemistry getInstance() throws ChemistryException {
     if (_instance == null) {

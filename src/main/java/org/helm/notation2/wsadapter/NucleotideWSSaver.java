@@ -43,6 +43,7 @@ public class NucleotideWSSaver {
    * {@code MonomerStoreConfiguration}.
    * 
    * @param nucleotide to save
+   * @return response from the webservice
    */
   public String saveNucleotideToStore(Nucleotide nucleotide) {
     String res = "";

@@ -9,6 +9,7 @@ package org.helm.notation2.tools;
 import java.util.Arrays;
 
 /**
+ * {@code
  * A very fast and memory efficient class to encode and decode to and from
  * BASE64 in full accordance with RFC 2045.<br><br> On Windows XP sp1 with
  * 1.4.2_04 and later ;), this encoder and decoder is about 10 times faster on
@@ -76,7 +77,7 @@ import java.util.Arrays;
  * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
- *
+ *}
  * @version 2.2
  * @author Mikael Grev Date: 2004-aug-02 Time: 11:31:11
  */

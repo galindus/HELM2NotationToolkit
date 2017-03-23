@@ -51,7 +51,7 @@ public class NucleotideWSLoader {
   /**
    * Default constructor.
    * 
-   * @throws IOException
+   * @throws IOException IO Error
    */
   public NucleotideWSLoader() throws IOException {
   }
@@ -61,8 +61,8 @@ public class NucleotideWSLoader {
    * 
    * @return Map containing nucleotides
    * 
-   * @throws IOException
-   * @throws URISyntaxException
+   * @throws IOException IO error
+   * @throws URISyntaxException if url is not valid
    */
   public Map<String, String> loadNucleotideStore() throws IOException,
       URISyntaxException {
@@ -113,8 +113,8 @@ public class NucleotideWSLoader {
    * @param parser the JSONParser containing JSONData.
    * @return Map containing nucleotides
    * 
-   * @throws JsonParseException
-   * @throws IOException
+   * @throws JsonParseException could not deserialize nucleotides
+   * @throws IOException IO error
    */
   private Map<String, String> deserializeNucleotideStore(JsonParser parser)
       throws JsonParseException, IOException {

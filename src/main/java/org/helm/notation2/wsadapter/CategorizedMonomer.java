@@ -89,7 +89,7 @@ public class CategorizedMonomer {
   /**
    * Sets the monomer ID.
    * 
-   * @param monomerID
+   * @param monomerID given monomer id
    */
   public void setMonomerID(String monomerID) {
     this.monomerID = monomerID;
@@ -107,7 +107,7 @@ public class CategorizedMonomer {
   /**
    * Sets the monomer name.
    * 
-   * @param monomerName
+   * @param monomerName given monomer name
    */
   public void setMonomerName(String monomerName) {
     this.monomerName = monomerName;
@@ -125,7 +125,7 @@ public class CategorizedMonomer {
   /**
    * Sets the natural analogon.
    * 
-   * @param naturalAnalogon
+   * @param naturalAnalogon given natural analog
    */
   public void setNaturalAnalogon(String naturalAnalogon) {
     this.naturalAnalogon = naturalAnalogon;
@@ -143,7 +143,7 @@ public class CategorizedMonomer {
   /**
    * Sets the monomer type.
    * 
-   * @param monomerType
+   * @param monomerType given monomertype
    */
   public void setMonomerType(String monomerType) {
     this.monomerType = monomerType;
@@ -161,7 +161,7 @@ public class CategorizedMonomer {
   /**
    * Sets the polymerType.
    * 
-   * @param polymerType
+   * @param polymerType given polymer type
    */
   public void setPolymerType(String polymerType) {
     this.polymerType = polymerType;
@@ -179,7 +179,7 @@ public class CategorizedMonomer {
   /**
    * Sets the category.
    * 
-   * @param category
+   * @param category given category
    */
   public void setCategory(String category) {
     this.category = category;
@@ -197,7 +197,7 @@ public class CategorizedMonomer {
   /**
    * Sets the shape.
    * 
-   * @param shape
+   * @param shape given shape
    */
   public void setShape(String shape) {
     this.shape = shape;
@@ -215,7 +215,7 @@ public class CategorizedMonomer {
   /**
    * Sets the font color.
    * 
-   * @param fontColor
+   * @param fontColor given font color
    */
   public void setFontColor(String fontColor) {
     this.fontColor = fontColor;
@@ -233,7 +233,7 @@ public class CategorizedMonomer {
   /**
    * Sets the background color.
    * 
-   * @param backgroundColor
+   * @param backgroundColor given background color
    */
   public void setBackgroundColor(String backgroundColor) {
     this.backgroundColor = backgroundColor;

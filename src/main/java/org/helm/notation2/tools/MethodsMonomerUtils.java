@@ -77,7 +77,6 @@ public final class MethodsMonomerUtils {
    * @return List of Monomer
    * @throws HELM2HandledException if the HELM2 features were there
    * @throws ChemistryException if the Chemistry Engine can not be initialized
-   * @throws NotationException
    */
   public static List<Monomer> getListOfHandledMonomers(List<MonomerNotation> monomerNotations)
       throws HELM2HandledException, ChemistryException{
@@ -98,7 +97,7 @@ public final class MethodsMonomerUtils {
           // for (int j = 0; j < count; j++) {
           items.addAll(Validation.getAllMonomers(monomerNotation, i));
           // }
-        } catch (NumberFormatException | JDOMException | MonomerException | IOException | NotationException | CTKException e) {
+        } catch (NumberFormatException | MonomerException | IOException | NotationException | CTKException e) {
           e.printStackTrace();
           throw new HELM2HandledException("Functions can't be called for HELM2 objects");
         }
@@ -115,7 +114,7 @@ public final class MethodsMonomerUtils {
    * @param monomerNotations List of MonomerNotation
    * @return List of Monomer
    * @throws HELM2HandledException if HELM2 features are there
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static List<Monomer> getListOfHandledMonomersOnlyBase(List<MonomerNotation> monomerNotations)
@@ -137,7 +136,7 @@ public final class MethodsMonomerUtils {
           // for (int j = 0; j < count; j++) {
           items.addAll(Validation.getAllMonomersOnlyBase(monomerNotation));
           // }
-        } catch (NumberFormatException | JDOMException | MonomerException | IOException | CTKException e) {
+        } catch (NumberFormatException |  MonomerException | IOException | CTKException e) {
           e.printStackTrace();
           throw new HELM2HandledException("Functions can't be called for HELM2 objects");
         }
@@ -169,15 +168,14 @@ public final class MethodsMonomerUtils {
    * @param monomerNotations List of MonomerNotation
    * @return List of Monomer
    * @throws MonomerException if the Monomer is not valid
-   * @throws IOException
-   * @throws JDOMException
    * @throws HELM2HandledException if HELM2 features are there
-   * @throws CTKException
-   * @throws NotationException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
+   * @throws MonomerLoadingException  if monomers can not be loaded
    */
   public static List<Monomer> getListOfMonomer(List<MonomerNotation> monomerNotations) throws MonomerException,
-      IOException, JDOMException, HELM2HandledException, CTKException, NotationException, ChemistryException {
+     HELM2HandledException, CTKException, NotationException, ChemistryException, MonomerLoadingException {
     List<Monomer> items = new ArrayList<Monomer>();
     for (int i = 0; i < monomerNotations.size(); i++) {
       items.addAll(Validation.getAllMonomers(monomerNotations.get(i), i));
@@ -191,9 +189,10 @@ public final class MethodsMonomerUtils {
    *
    * @param type Type of the Monomer
    * @param id Id of the Monomer
+   * @param info natural analog of the monomer
    * @return Monomer
    * @throws MonomerException if the desired monomer is not in the database
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized 
    */
   public static Monomer getMonomer(String type, String id, String info) throws MonomerException, NotationException, ChemistryException{

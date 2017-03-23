@@ -27,8 +27,8 @@ public class MonomerStore {
   /**
    * Constructor with Monomer- and SmilesDB
    *
-   * @param monomerDB
-   * @param smilesMonomerDB
+   * @param monomerDB given monomerDB
+   * @param smilesMonomerDB given smiles DB
    */
   public MonomerStore(Map<String, Map<String, Monomer>> monomerDB,
       Map<String, Monomer> smilesMonomerDB) {
@@ -49,7 +49,7 @@ public class MonomerStore {
   /**
    * returns MonomerDB
    *
-   * @return MonomerDB as Map<String, Map<String, Monomer>>
+   * @return MonomerDB as {@code Map<String, Map<String, Monomer>>}
    */
   public Map<String, Map<String, Monomer>> getMonomerDB() {
     return monomerDB;
@@ -58,7 +58,7 @@ public class MonomerStore {
   /**
    * returns SmilesMonomerDB
    *
-   * @return SmilesMonomerDB as Map<String, Monomer>
+   * @return SmilesMonomerDB as {@code Map<String, Monomer>}
    */
   public Map<String, Monomer> getSmilesMonomerDB() {
     return smilesMonomerDB;
@@ -67,9 +67,9 @@ public class MonomerStore {
   /**
    * Adds a monomer to the store
    *
-   * @param monomer
-   * @throws IOException
-   * @throws MonomerException
+   * @param monomer given monomer
+   * @throws IOException if the monomer store can not be saved
+   * @throws MonomerException if the monomer is not valid
    */
   public void addMonomer(Monomer monomer) throws IOException,
       MonomerException {
@@ -79,10 +79,10 @@ public class MonomerStore {
   /**
    * Adds a monomer to the store and optionally sets the dbChanged flag
    *
-   * @param monomer
-   * @param dbChanged
-   * @throws IOException
-   * @throws MonomerException
+   * @param monomer given monomer
+   * @param dbChanged if db was changed
+   * @throws IOException if the monomer store can not be saved
+   * @throws MonomerException if the monomer is not valid
    */
   public void addMonomer(Monomer monomer, boolean dbChanged)
       throws IOException, MonomerException {
@@ -133,8 +133,8 @@ public class MonomerStore {
   /**
    * Checks if a specific monomer exists in the store
    *
-   * @param polymerType
-   * @param alternateId
+   * @param polymerType polymer type of monomer
+   * @param alternateId alternateId of monomer
    * @return true if monomer exists, false if not
    */
   public boolean hasMonomer(String polymerType, String alternateId) {
@@ -144,19 +144,20 @@ public class MonomerStore {
   /**
    * Returns the monomer specified by polymerType and alternatId
    *
-   * @param polymerType
-   * @param alternateId
+   * @param polymerType polymer type of monomer
+   * @param alternateId alternateId of monomer
    * @return the matching monomer
    */
   public Monomer getMonomer(String polymerType, String alternateId) {
 	Map<String, Monomer> map1 = monomerDB.get(polymerType);
+	//alternateId = alternateId.toUpperCase();
     return monomerDB.get(polymerType).get(alternateId);
   }
 
   /**
    * Returns the monomer by smiles string
    *
-   * @param smiles
+   * @param smiles given smiles
    * @return the matching monomer
    */
   public Monomer getMonomer(String smiles) {
@@ -166,7 +167,7 @@ public class MonomerStore {
   /**
    * Returns all monomers by polymerType
    *
-   * @param polymerType
+   * @param polymerType given polymer type
    * @return All monomers with polymerType
    */
   public Map<String, Monomer> getMonomers(String polymerType) {
@@ -176,9 +177,9 @@ public class MonomerStore {
   /**
    * Adds a monomer to the store and makes it a temporary new monomer
    *
-   * @param monomer
-   * @throws IOException
-   * @throws MonomerException
+   * @param monomer given monomer
+   * @throws IOException if the monomer can not be saved
+   * @throws MonomerException if the monomer is not valid
    */
   public synchronized void addNewMonomer(Monomer monomer) throws IOException,
       MonomerException {
@@ -220,7 +221,7 @@ public class MonomerStore {
   /**
    * Returns the polymer type set
    *
-   * @return the polymer type set as Set<String>
+   * @return the polymer type set as {@code Set<String>}
    */
   public Set<String> getPolymerTypeSet() {
     return monomerDB.keySet();
@@ -230,7 +231,7 @@ public class MonomerStore {
    * This method returns all monomers of the store as list sorted by polymer
    * type
    *
-   * @return all monomers of store as List<Monomer>
+   * @return all monomers of store as {@code List<{@link Monomer}>}
    */
   public List<Monomer> getAllMonomersList() {
     List<Monomer> monomers = new ArrayList<Monomer>();

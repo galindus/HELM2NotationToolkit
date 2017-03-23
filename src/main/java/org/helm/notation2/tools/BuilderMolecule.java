@@ -472,11 +472,11 @@ public final class BuilderMolecule {
   }
 
   /**
-   * @param smiles
-   * @return
-   * @throws ChemistryException
-   * @throws CTKException
-   * @throws IOException
+   * @param smiles given input smiles
+   * @return converted smiles into molecule
+   * @throws ChemistryException if chemistry could not be initialized
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws IOException if smiles can not be read
    */
   public static AbstractMolecule getMolecule(String smiles) throws IOException, CTKException, ChemistryException {
     return Chemistry.getInstance().getManipulator().getMolecule(smiles, null);

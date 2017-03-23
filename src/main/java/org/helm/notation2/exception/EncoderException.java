@@ -9,7 +9,7 @@ package org.helm.notation2.exception;
 /**
  * {@code EncoderException} TODO comment me
  *
- * @author
+ * @author hecht
  * @version $Id$
  */
 public class EncoderException extends Exception {

@@ -34,6 +34,7 @@ import org.helm.notation2.Nucleotide;
 import org.helm.notation2.exception.ChemistryException;
 import org.helm.notation2.exception.FastaFormatException;
 import org.helm.notation2.exception.HELM2HandledException;
+import org.helm.notation2.exception.NucleotideLoadingException;
 import org.helm.notation2.exception.RNAUtilsException;
 import org.helm.notation2.parser.exceptionparser.NotationException;
 import org.helm.notation2.parser.notation.HELM2Notation;
@@ -51,225 +52,241 @@ import org.slf4j.LoggerFactory;
  */
 public class SiRNANotation {
 
-  public static Map<String, String> complementMap = new HashMap<String, String>();
+	public static Map<String, String> complementMap = new HashMap<String, String>();
 
-  static {
-    complementMap.put("A", "U");
-    complementMap.put("G", "C");
-    complementMap.put("C", "G");
-    complementMap.put("U", "A");
-    complementMap.put("T", "A");
-    complementMap.put("X", "X");
-  }
+	static {
+		complementMap.put("A", "U");
+		complementMap.put("G", "C");
+		complementMap.put("C", "G");
+		complementMap.put("U", "A");
+		complementMap.put("T", "A");
+		complementMap.put("X", "X");
+	}
 
-  /** The Logger for this class */
-  private static final Logger LOG = LoggerFactory.getLogger(SiRNANotation.class);
+	/** The Logger for this class */
+	private static final Logger LOG = LoggerFactory.getLogger(SiRNANotation.class);
 
-  /**
-   * this method converts nucleotide sequences into HELM2Notation
-   *
-   * @param senseSeq 5-3 nucleotide sequence for default notation
-   * @param antiSenseSeq 3-5 nucleotide sequence for default notation
-   * @return HELM2Notation for siRNA
-   * @throws NotationException
-   * @throws FastaFormatException
-   * @throws IOException
-   * @throws JDOMException
-   * @throws HELM2HandledException
-   * @throws RNAUtilsException
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws ChemistryException if the Chemistry Engine can not be initialized
-   * @throws CTKException
-   */
-  public static HELM2Notation getSiRNANotation(String senseSeq, String antiSenseSeq) throws NotationException, FastaFormatException, IOException, JDOMException, HELM2HandledException,
-      RNAUtilsException, org.helm.notation2.exception.NotationException, ChemistryException, CTKException {
-    return getSirnaNotation(senseSeq, antiSenseSeq, NucleotideParser.RNA_DESIGN_NONE);
-  }
+	/**
+	 * this method converts nucleotide sequences into HELM2Notation
+	 *
+	 * @param senseSeq
+	 *            5-3 nucleotide sequence for default notation
+	 * @param antiSenseSeq
+	 *            3-5 nucleotide sequence for default notation
+	 * @return HELM2Notation for siRNA
+	 * @throws NotationException
+	 *             if notation is not valid
+	 * @throws FastaFormatException if the fasta input is not valid
+	 * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+	 * @throws RNAUtilsException if the polymer is not a RNA/DNA
+	 * @throws org.helm.notation2.exception.NotationException if notation is not valid
+	 * @throws ChemistryException
+	 *             if the Chemistry Engine can not be initialized
+	 * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+	 * @throws NucleotideLoadingException if nucleotides can not be loaded
+	 */
+	public static HELM2Notation getSiRNANotation(String senseSeq, String antiSenseSeq)
+			throws NotationException, FastaFormatException, HELM2HandledException, RNAUtilsException,
+			org.helm.notation2.exception.NotationException, ChemistryException, CTKException,
+			NucleotideLoadingException {
+		return getSirnaNotation(senseSeq, antiSenseSeq, NucleotideParser.RNA_DESIGN_NONE);
+	}
 
-  /**
-   * this method converts nucleotide sequences into HELM notation based on
-   * design pattern
-   *
-   * @param senseSeq 5-3 nucleotide sequence
-   * @param antiSenseSeq 3-5 nucleotide sequence
-   * @param rnaDesignType
-   * @return HELM2Notation for siRNA
-   * @throws NotationException
-   * @throws FastaFormatException
-   * @throws IOException
-   * @throws JDOMException
-   * @throws HELM2HandledException
-   * @throws RNAUtilsException
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws ChemistryException if the Chemistry Engine can not be initialized
-   * @throws CTKException
-   */
-  public static HELM2Notation getSirnaNotation(String senseSeq, String antiSenseSeq, String rnaDesignType) throws NotationException, FastaFormatException, IOException, JDOMException,
-      HELM2HandledException, RNAUtilsException, org.helm.notation2.exception.NotationException, ChemistryException, CTKException {
-    HELM2Notation helm2notation = null;
-    if (senseSeq != null && senseSeq.length() > 0) {
-      helm2notation = SequenceConverter.readRNA(senseSeq);
-    }
-    if (antiSenseSeq != null && antiSenseSeq.length() > 0) {
-      PolymerNotation antisense = new PolymerNotation("RNA2");
-      antisense = new PolymerNotation(antisense.getPolymerID(), FastaFormat.generateElementsforRNA(antiSenseSeq, antisense.getPolymerID()));
+	/**
+	 * this method converts nucleotide sequences into HELM notation based on
+	 * design pattern
+	 *
+	 * @param senseSeq
+	 *            5-3 nucleotide sequence
+	 * @param antiSenseSeq
+	 *            3-5 nucleotide sequence
+	 * @param rnaDesignType given design pattern
+	 * @return HELM2Notation for siRNA
+	 * @throws NotationException if notation is not valid
+	 * @throws FastaFormatException if the fasta input is not valid
+	 * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+	 * @throws RNAUtilsException if the polymer is not a RNA/DNA
+	 * @throws org.helm.notation2.exception.NotationException if notation is not valid
+	 * @throws ChemistryException
+	 *             if the Chemistry Engine can not be initialized
+	 * @throws CTKException  general ChemToolKit exception passed to HELMToolKit
+	 * @throws NucleotideLoadingException if nucleotides can not be loaded
+	 */
+	public static HELM2Notation getSirnaNotation(String senseSeq, String antiSenseSeq, String rnaDesignType)
+			throws NotationException, FastaFormatException, HELM2HandledException, RNAUtilsException,
+			org.helm.notation2.exception.NotationException, ChemistryException, CTKException,
+			NucleotideLoadingException {
+		HELM2Notation helm2notation = null;
+		if (senseSeq != null && senseSeq.length() > 0) {
+			helm2notation = SequenceConverter.readRNA(senseSeq);
+		}
+		if (antiSenseSeq != null && antiSenseSeq.length() > 0) {
+			PolymerNotation antisense = new PolymerNotation("RNA2");
+			antisense = new PolymerNotation(antisense.getPolymerID(),
+					FastaFormat.generateElementsforRNA(antiSenseSeq, antisense.getPolymerID()));
 
-      helm2notation.addPolymer(antisense);
-    }
-    validateSiRNADesign(helm2notation.getListOfPolymers().get(0), helm2notation.getListOfPolymers().get(1), rnaDesignType);
-    helm2notation.getListOfConnections().addAll(hybridization(helm2notation.getListOfPolymers().get(0), helm2notation.getListOfPolymers().get(1), rnaDesignType));
-    ChangeObjects.addAnnotation(new AnnotationNotation("RNA1{ss}|RNA2{as}"), 0, helm2notation);
-    return helm2notation;
-  }
+			helm2notation.addPolymer(antisense);
+		}
+		validateSiRNADesign(helm2notation.getListOfPolymers().get(0), helm2notation.getListOfPolymers().get(1),
+				rnaDesignType);
+		helm2notation.getListOfConnections().addAll(hybridization(helm2notation.getListOfPolymers().get(0),
+				helm2notation.getListOfPolymers().get(1), rnaDesignType));
+		ChangeObjects.addAnnotation(new AnnotationNotation("RNA1{ss}|RNA2{as}"), 0, helm2notation);
+		return helm2notation;
+	}
 
-  /**
-   * method to generate a List of ConnectionNotation according to the given two
-   * polymerNotations and the rnaDesigntype
-   *
-   * @param one PolymerNotation
-   * @param two PolymerNotation
-   * @param rnaDesignType
-   * @return List of ConnectionNotations
-   * @throws JDOMException
-   * @throws IOException
-   * @throws NotationException
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws RNAUtilsException
-   * @throws HELM2HandledException
-   * @throws ChemistryException if the Chemistry Engine can not be initialized
-   */
-  private static List<ConnectionNotation> hybridization(PolymerNotation one, PolymerNotation two, String rnaDesignType) throws NotationException, IOException, JDOMException, HELM2HandledException,
-      RNAUtilsException, org.helm.notation2.exception.NotationException, ChemistryException {
-    List<ConnectionNotation> connections = new ArrayList<ConnectionNotation>();
-    ConnectionNotation connection;
-    if (one.getPolymerElements().getListOfElements() != null && one.getPolymerElements().getListOfElements().size() > 0 && two.getPolymerElements().getListOfElements() != null
-        && two.getPolymerElements().getListOfElements().size() > 0) {
-      String analogSeqSS = RNAUtils.getNaturalAnalogSequence(one).replaceAll("T", "U");
-      String analogSeqAS = new StringBuilder(RNAUtils.getNaturalAnalogSequence(two).replaceAll("T", "U")).toString();
+	/**
+	 * method to generate a List of ConnectionNotation according to the given
+	 * two polymerNotations and the rnaDesigntype
+	 *
+	 * @param one
+	 *            PolymerNotation
+	 * @param two
+	 *            PolymerNotation
+	 * @param rnaDesignType
+	 * @return List of ConnectionNotations
+	 * @throws NotationException if notation is not valid
+	 * @throws org.helm.notation2.exception.NotationException if notation is not valid
+	 * @throws RNAUtilsException if the polymer is not a RNA/DNA
+	 * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+	 * @throws ChemistryException
+	 *             if the Chemistry Engine can not be initialized
+	 * @throws NucleotideLoadingException
+	 * 
+	 */
+	private static List<ConnectionNotation> hybridization(PolymerNotation one, PolymerNotation two,
+			String rnaDesignType) throws NotationException, HELM2HandledException, RNAUtilsException,
+					org.helm.notation2.exception.NotationException, ChemistryException, NucleotideLoadingException {
+		List<ConnectionNotation> connections = new ArrayList<ConnectionNotation>();
+		ConnectionNotation connection;
+		if (one.getPolymerElements().getListOfElements() != null
+				&& one.getPolymerElements().getListOfElements().size() > 0
+				&& two.getPolymerElements().getListOfElements() != null
+				&& two.getPolymerElements().getListOfElements().size() > 0) {
+			String analogSeqSS = RNAUtils.getNaturalAnalogSequence(one).replaceAll("T", "U");
+			String analogSeqAS = new StringBuilder(RNAUtils.getNaturalAnalogSequence(two).replaceAll("T", "U"))
+					.toString();
 
-      if (NucleotideParser.RNA_DESIGN_NONE.equalsIgnoreCase(rnaDesignType)) {
-        String normalCompAS = RNAUtils.getNaturalAnalogSequence(RNAUtils.getComplement(two)).replace("T", "U");
-        String maxMatch = RNAUtils.getMaxMatchFragment(analogSeqSS, new StringBuilder(normalCompAS).reverse().toString());
-        if (maxMatch.length() > 0) {
-          int ssStart = analogSeqSS.indexOf(maxMatch);
-          int normalCompStart = new StringBuilder(normalCompAS).reverse().toString().indexOf(maxMatch);
-          int asStart = analogSeqAS.length() - maxMatch.length()
-              - normalCompStart;
+			if (NucleotideParser.RNA_DESIGN_NONE.equalsIgnoreCase(rnaDesignType)) {
+				String normalCompAS = RNAUtils.getNaturalAnalogSequence(RNAUtils.getComplement(two)).replace("T", "U");
+				String maxMatch = RNAUtils.getMaxMatchFragment(analogSeqSS,
+						new StringBuilder(normalCompAS).reverse().toString());
+				if (maxMatch.length() > 0) {
+					int ssStart = analogSeqSS.indexOf(maxMatch);
+					int normalCompStart = new StringBuilder(normalCompAS).reverse().toString().indexOf(maxMatch);
+					int asStart = analogSeqAS.length() - maxMatch.length() - normalCompStart;
 
-          for (int i = 0; i < maxMatch.length(); i++) {
-            int ssPos = (i + ssStart) * 3 + 2;
-            int asPos = (asStart + maxMatch.length() - 1 - i) * 3 + 2;
-            String details = ssPos + ":pair-" + asPos + ":pair";
-            connection = new ConnectionNotation(one.getPolymerID(), two.getPolymerID(), details);
-            connections.add(connection);
-          }
-        }
-      } else if (NucleotideParser.RNA_DESIGN_TUSCHL_19_PLUS_2.equalsIgnoreCase(rnaDesignType)) {
-        int matchLength = 19;
-        connections = hybridizationWithLengthFromStart(one, two, analogSeqSS, analogSeqAS, matchLength);
-      } else if (NucleotideParser.RNA_DESIGN_DICER_27_R.equalsIgnoreCase(rnaDesignType)) {
-        int matchLength = 25;
-        connections = hybridizationWithLengthFromStart(one, two, analogSeqSS, analogSeqAS, matchLength);
-      } else if (NucleotideParser.RNA_DESIGN_DICER_27_L.equalsIgnoreCase(rnaDesignType)) {
-        int matchLength = 25;
-        connections = hybridizationWithLengthFromStart(one, two, analogSeqSS, analogSeqAS, matchLength);
-      } else {
-        new RNAUtilsException("RNA-Design-Type " + rnaDesignType + " is unknown");
-      }
-    }
-    return connections;
-  }
+					for (int i = 0; i < maxMatch.length(); i++) {
+						int ssPos = (i + ssStart) * 3 + 2;
+						int asPos = (asStart + maxMatch.length() - 1 - i) * 3 + 2;
+						String details = ssPos + ":pair-" + asPos + ":pair";
+						connection = new ConnectionNotation(one.getPolymerID(), two.getPolymerID(), details);
+						connections.add(connection);
+					}
+				}
+			} else if (NucleotideParser.RNA_DESIGN_TUSCHL_19_PLUS_2.equalsIgnoreCase(rnaDesignType)) {
+				int matchLength = 19;
+				connections = hybridizationWithLengthFromStart(one, two, analogSeqSS, analogSeqAS, matchLength);
+			} else if (NucleotideParser.RNA_DESIGN_DICER_27_R.equalsIgnoreCase(rnaDesignType)) {
+				int matchLength = 25;
+				connections = hybridizationWithLengthFromStart(one, two, analogSeqSS, analogSeqAS, matchLength);
+			} else if (NucleotideParser.RNA_DESIGN_DICER_27_L.equalsIgnoreCase(rnaDesignType)) {
+				int matchLength = 25;
+				connections = hybridizationWithLengthFromStart(one, two, analogSeqSS, analogSeqAS, matchLength);
+			} else {
+				new RNAUtilsException("RNA-Design-Type " + rnaDesignType + " is unknown");
+			}
+		}
+		return connections;
+	}
 
-  /**
-   * method to generate a List of ConnectionNotations given the two
-   * PolymerNotations and the sequences and the start point
-   *
-   * @param one PolymerNotation
-   * @param two PolymerNotation
-   * @param senseAnalogSeq sense Sequence
-   * @param antisenseAnalogSeq antisense Sequence
-   * @param lengthFromStart start position
-   * @return List of ConnectionNotations
-   * @throws NotationException
-   * @throws IOException
-   * @throws JDOMException
-   */
-  private static List<ConnectionNotation> hybridizationWithLengthFromStart(PolymerNotation one, PolymerNotation two,
-      String senseAnalogSeq, String antisenseAnalogSeq,
-      int lengthFromStart) throws NotationException, IOException, JDOMException {
-    List<ConnectionNotation> connections = new ArrayList<ConnectionNotation>();
-    ConnectionNotation connection;
-    for (int i = 0; i < lengthFromStart; i++) {
-      int ssPos = i * 3 + 2;
-      int asPos = (lengthFromStart - 1 - i) * 3 + 2;
-      String ssChar = String.valueOf(senseAnalogSeq.charAt(i));
-      String asChar = String.valueOf(antisenseAnalogSeq.charAt(lengthFromStart - 1 - i));
-      if (complementMap.get(ssChar).equalsIgnoreCase(asChar)) {
-        String details = ssPos + ":pair-" + asPos + ":pair";
-        connection = new ConnectionNotation(one.getPolymerID(), two.getPolymerID(), details);
-        connections.add(connection);
-      }
+	/**
+	 * method to generate a List of ConnectionNotations given the two
+	 * PolymerNotations and the sequences and the start point
+	 *
+	 * @param one
+	 *            PolymerNotation
+	 * @param two
+	 *            PolymerNotation
+	 * @param senseAnalogSeq
+	 *            sense Sequence
+	 * @param antisenseAnalogSeq
+	 *            antisense Sequence
+	 * @param lengthFromStart
+	 *            start position
+	 * @return List of ConnectionNotations
+	 * @throws NotationException
+	 *             if notation is not valid
+	 */
+	private static List<ConnectionNotation> hybridizationWithLengthFromStart(PolymerNotation one, PolymerNotation two,
+			String senseAnalogSeq, String antisenseAnalogSeq, int lengthFromStart) throws NotationException {
+		List<ConnectionNotation> connections = new ArrayList<ConnectionNotation>();
+		ConnectionNotation connection;
+		for (int i = 0; i < lengthFromStart; i++) {
+			int ssPos = i * 3 + 2;
+			int asPos = (lengthFromStart - 1 - i) * 3 + 2;
+			String ssChar = String.valueOf(senseAnalogSeq.charAt(i));
+			String asChar = String.valueOf(antisenseAnalogSeq.charAt(lengthFromStart - 1 - i));
+			if (complementMap.get(ssChar).equalsIgnoreCase(asChar)) {
+				String details = ssPos + ":pair-" + asPos + ":pair";
+				connection = new ConnectionNotation(one.getPolymerID(), two.getPolymerID(), details);
+				connections.add(connection);
+			}
 
-    }
-    return connections;
-  }
+		}
+		return connections;
+	}
 
-  /**
-   * validates the required siRNA
-   *
-   * @param senseSeq
-   * @param antiSenseSeq
-   * @param rnaDesignType
-   * @return true, if it is valid, throws an exception otherwise
-   * @throws HELM2HandledException
-   * @throws RNAUtilsException
-   * @throws NotationException
-   * @throws ChemistryException
-   */
-  private static boolean validateSiRNADesign(PolymerNotation one, PolymerNotation two, String rnaDesignType) throws RNAUtilsException, HELM2HandledException, NotationException, ChemistryException {
-    if (NucleotideParser.RNA_DESIGN_NONE.equalsIgnoreCase(rnaDesignType)) {
-      return true;
-    }
+	/**
+	 * validates the required siRNA
+	 *
+	 * @param senseSeq
+	 * @param antiSenseSeq
+	 * @param rnaDesignType
+	 * @return true, if it is valid, throws an exception otherwise
+	 * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+	 * @throws RNAUtilsException if the polymer is not a RNA/DNA
+	 * @throws NotationException if notation is not valid
+	 * @throws ChemistryException if chemistry engine can not be initialized
+	 */
+	private static boolean validateSiRNADesign(PolymerNotation one, PolymerNotation two, String rnaDesignType)
+			throws RNAUtilsException, HELM2HandledException, NotationException, ChemistryException {
+		if (NucleotideParser.RNA_DESIGN_NONE.equalsIgnoreCase(rnaDesignType)) {
+			return true;
+		}
 
-    if (!NucleotideParser.SUPPORTED_DESIGN_LIST.contains(rnaDesignType)) {
-      throw new NotationException("Unsupported RNA Design Type '"
-          + rnaDesignType + "'");
-    }
+		if (!NucleotideParser.SUPPORTED_DESIGN_LIST.contains(rnaDesignType)) {
+			throw new NotationException("Unsupported RNA Design Type '" + rnaDesignType + "'");
+		}
 
-    List<Nucleotide> senseNucList = RNAUtils.getNucleotideList(one);
-    List<Nucleotide> antisenseNucList = RNAUtils.getNucleotideList(two);
+		List<Nucleotide> senseNucList = RNAUtils.getNucleotideList(one);
+		List<Nucleotide> antisenseNucList = RNAUtils.getNucleotideList(two);
 
-    if (rnaDesignType.equals(NucleotideParser.RNA_DESIGN_TUSCHL_19_PLUS_2)) {
-      if (senseNucList.size() != 21) {
-        throw new NotationException(
-            "Sense strand for Tuschl 19+2 design must have 21 nucleotides");
-      }
-      if (antisenseNucList.size() != 21) {
-        throw new NotationException(
-            "Antisense strand for Tuschl 19+2 design must have 21 nucleotides");
-      }
-    } else if (rnaDesignType.equals(NucleotideParser.RNA_DESIGN_DICER_27_R)) {
-      if (senseNucList.size() != 25) {
-        throw new NotationException(
-            "Sense strand for Dicer 27R design must have 25 nucleotides");
-      }
-      if (antisenseNucList.size() != 27) {
-        throw new NotationException(
-            "Antisense strand for Dicer 27R design must have 27 nucleotides");
-      }
-    } else if (rnaDesignType.equals(NucleotideParser.RNA_DESIGN_DICER_27_L)) {
-      if (senseNucList.size() != 27) {
-        throw new NotationException(
-            "Sense strand for Dicer 27L design must have 27 nucleotides");
-      }
-      if (antisenseNucList.size() != 25) {
-        throw new NotationException(
-            "Antisense strand for Dicer 27L design must have 25 nucleotides");
-      }
-    }
+		if (rnaDesignType.equals(NucleotideParser.RNA_DESIGN_TUSCHL_19_PLUS_2)) {
+			if (senseNucList.size() != 21) {
+				throw new NotationException("Sense strand for Tuschl 19+2 design must have 21 nucleotides");
+			}
+			if (antisenseNucList.size() != 21) {
+				throw new NotationException("Antisense strand for Tuschl 19+2 design must have 21 nucleotides");
+			}
+		} else if (rnaDesignType.equals(NucleotideParser.RNA_DESIGN_DICER_27_R)) {
+			if (senseNucList.size() != 25) {
+				throw new NotationException("Sense strand for Dicer 27R design must have 25 nucleotides");
+			}
+			if (antisenseNucList.size() != 27) {
+				throw new NotationException("Antisense strand for Dicer 27R design must have 27 nucleotides");
+			}
+		} else if (rnaDesignType.equals(NucleotideParser.RNA_DESIGN_DICER_27_L)) {
+			if (senseNucList.size() != 27) {
+				throw new NotationException("Sense strand for Dicer 27L design must have 27 nucleotides");
+			}
+			if (antisenseNucList.size() != 25) {
+				throw new NotationException("Antisense strand for Dicer 27L design must have 25 nucleotides");
+			}
+		}
 
-    return true;
+		return true;
 
-  }
+	}
 
 }

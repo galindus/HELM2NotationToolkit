@@ -160,16 +160,17 @@ public class MonomerParser {
   }
 
   /**
-   * This method validates Attachment by the following rules<br> <li>Attachment
-   * must have unique ID<br> <li>cap group SMILES must be valid <br> <li>cap
-   * group SMILES must contain one R group<br> <li>R group in SMILES must match
-   * R group label<br>
+   * This method validates Attachment by the following rules
+   * Attachment must have unique ID 
+   * cap group SMILES must be valid 
+   * cap group SMILES must contain one R group
+   * R group in SMILES must match R group label
    *
-   * @param attachment
+   * @param attachment given attachment
    * @return true or false
-   * @throws org.helm.notation2.exception.MonomerException
-   * @throws java.io.IOException
-   * @throws ChemistryException
+   * @throws org.helm.notation2.exception.MonomerException if attachment is not valid
+   * @throws java.io.IOException IO error
+   * @throws ChemistryException if chemistry engine can not be initialized
    */
   public static boolean validateAttachement(Attachment attachment)
       throws MonomerException, IOException, ChemistryException {
@@ -206,6 +207,7 @@ public class MonomerParser {
    *
    * @param monomer element
    * @return Monomer
+   * @throws MonomerException if element is not a valid monomer
    */
   public static Monomer getMonomer(Element monomer) throws MonomerException {
     Monomer m = new Monomer();
@@ -244,8 +246,9 @@ public class MonomerParser {
   /**
    * This method converts Monomer to MONOMER XML element
    *
-   * @param monomer
+   * @param monomer given monomer
    * @return Element
+   * @throws MonomerException if monomer is not valid
    */
   public static Element getMonomerElement(Monomer monomer)
       throws MonomerException {
@@ -356,25 +359,30 @@ public class MonomerParser {
 
   /**
    * This methods checks the validity of the monomer based on the following
-   * rules<br> <li>monomer cannot be null<br> <li>polymer type cannot be null
-   * and must be one of the defined polymer type<br> <li>monomer type cannot be
-   * null and must be one of the defined monomer type for a given polymer
-   * type<br> <li>Monomer ID cannot be null<br> <li>structure cannot be null for
-   * non-chemical type monomer<br> <li>structure SMILES must be valid<br> <li>
-   * attachment labels on monomer must be unique<br> <li>Attachment number on
-   * SMILES must match attachment List size<br> <li>Each attachment in
-   * attachment list must be valid (call validateAttachment())<br> <li>
+   * rules
+   * monomer cannot be null
+   * polymer type cannot be null
+   * and must be one of the defined polymer type
+   * monomer type cannot be null and must be one of the defined monomer type for a given polymer
+   * type
+   * Monomer ID cannot be null 
+   * structure cannot be null for non-chemical type monomer
+   * structure SMILES must be valid
+   * attachment labels on monomer must be unique 
+   * Attachment number on SMILES must match attachment List size 
+   * Each attachment in attachment list must be valid (call validateAttachment())
    * Attachment labels on monomer must match atachment label on attachment
-   * list<br> <li>For non-chemical type monomers, modified monomer (ID length
-   * greater than 1) must have natural analog<br> <li>All monomers must have at
-   * least one attachment
+   * list
+   * For non-chemical type monomers, modified monomer (ID length
+   * greater than 1) must have natural analog
+   * All monomers must have at least one attachment
    *
-   * @param monomer
+   * @param monomer given monomer
    * @return true or false
-   * @throws org.helm.notation2.exception.MonomerException
-   * @throws java.io.IOException
-   * @throws CTKException
-   * @throws ChemistryException
+   * @throws org.helm.notation2.exception.MonomerException if monomer is not valid
+   * @throws java.io.IOException IO error
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws ChemistryException if chemistry engine can not be initialized
    */
   public static boolean validateMonomer(Monomer monomer)
       throws MonomerException, IOException, CTKException, ChemistryException {
@@ -533,8 +541,8 @@ public class MonomerParser {
   /**
    * This methods return the list of R groups in the extended SMILES string
    *
-   * @param extendedSmiles
-   * @return string list
+   * @param smiles given smiles
+   * @return string list containing r groups of the smiles
    */
   private static List<String> getAttachmentLabels(String smiles) {
 
@@ -634,8 +642,8 @@ public class MonomerParser {
 /**
    * This method checks if strings in a list are unique
    *
-   * @param labels
-   * @return true or fals
+   * @param labels list of attachments labels
+   * @return true or false
    */
   private static boolean areAttachmentLabelsUnique(List<String> labels) {
     Map<String, String> map = new TreeMap<String, String>(String.CASE_INSENSITIVE_ORDER);
@@ -653,8 +661,8 @@ public class MonomerParser {
    * This method checks if attachment label is in the format of R#, where # is a
    * number
    *
-   * @param label
-   * @throws org.helm.notation2.exception.MonomerException
+   * @param label attachment label
+   * @throws org.helm.notation2.exception.MonomerException if label is not valid
    */
   public static void validateAttachmentLabel(String label)
       throws MonomerException {

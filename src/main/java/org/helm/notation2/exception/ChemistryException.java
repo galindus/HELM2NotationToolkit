@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 /**
  * {@code ChemistryException} TODO comment me
  *
- * @author
+ * @author hecht
  * @version $Id$
  */
 public class ChemistryException extends Exception {

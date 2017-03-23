@@ -71,7 +71,7 @@ public final class Images {
    * @param rgroupsInformation information if the rgroups should be should or
    *          not
    * @return an image of the monomer in byte[]
-   * @throws CTKException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    * @throws BuilderMoleculeException if the molecule can't be built
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
@@ -98,8 +98,8 @@ public final class Images {
    * @param helm2notation input HELMNotation
    * @return the generated image in byte[]
    * @throws BuilderMoleculeException if the HELM molecule can't be built
-   * @throws CTKException
-   * @throws IOException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws IOException IO Error
    * @throws ChemistryException if the Chemistry Engine can not initialized
    */
   public static byte[] generateImageHELMMolecule(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, IOException, ChemistryException {

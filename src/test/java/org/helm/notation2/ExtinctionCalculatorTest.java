@@ -285,5 +285,11 @@ public class ExtinctionCalculatorTest {
 		assertEquals(ExtinctionCoefficient.getInstance().calculate(HELM2NotationUtils.readNotation(notation)), f);
 	}
 	
+	@Test
+	public void testInlineSmilesCalculation() throws ExtinctionCoefficientException, ChemistryException, ParserException, JDOMException{
+		String notation = "PEPTIDE1{G.[[*]N[C@@H](C=O)C([*])=O |$_R1;;;;;;_R2;$|].C}$$$$V2.0";
+		ExtinctionCoefficient.getInstance().calculate(HELM2NotationUtils.readNotation(notation));
+	}
+	
 
 }

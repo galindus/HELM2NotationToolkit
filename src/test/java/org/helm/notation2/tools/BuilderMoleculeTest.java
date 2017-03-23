@@ -102,6 +102,14 @@ public class BuilderMoleculeTest {
     Assert.assertEquals(MoleculePropertyCalculator.getMolecularFormular(helm2notation), "C30H40N2O10");
     System.out.println(MDLUtils.generateMDL(helm2notation));
   }
+  
+  @Test
+  public void testBuildMoleculek() throws ParserException, JDOMException, BuilderMoleculeException, CTKException, NotationException, ChemistryException {
+    String notation = "CHEM1{[az]}$$$$V2.0";
+    HELM2Notation helm2notation = HELM2NotationUtils.readNotation(notation);
+   // Assert.assertEquals(MoleculePropertyCalculator.getMolecularFormular(helm2notation), "C30H40N2O10");
+    System.out.println(MDLUtils.generateMDL(helm2notation));
+  }
 
   @Test
   public void testBuildMoleculePeptide() throws ParserException, JDOMException, BuilderMoleculeException, CTKException, NotationException, ChemistryException {

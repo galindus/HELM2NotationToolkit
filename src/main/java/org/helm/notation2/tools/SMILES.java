@@ -59,7 +59,7 @@ public final class SMILES {
    * @param helm2notation input HELMNotation
    * @return smiles for the whole HELMNotation
    * @throws BuilderMoleculeException if the molecule can't be built
-   * @throws CTKException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String getSMILESForAll(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, ChemistryException {
@@ -85,9 +85,9 @@ public final class SMILES {
    * @param helm2notation input HELMNotation
    * @return canonical smiles for the whole HELMNotation
    * @throws BuilderMoleculeException if the molecule can't be built
-   * @throws CTKSmilesException
-   * @throws CTKException
-   * @throws NotationException
+   * @throws CTKSmilesException if it contains an invalid smiles
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String getCanonicalSMILESForAll(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKSmilesException, CTKException, NotationException, ChemistryException {
@@ -107,12 +107,12 @@ public final class SMILES {
   /**
    * method if the any of the given PolymerNotation contains generic structures
    *
-   * @param polymers
+   * @param polymers list of polymernotations
    * @return true, if it contains generic structure, false otherwise
-   * @throws HELM2HandledException
-   * @throws ChemistryException
-   * @throws IOException
-   * @throws CTKException
+   * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+   * @throws ChemistryException if chemistry engine can not be initialized
+   * @throws IOException if monomer can not be read by chemistry
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    */
   public static boolean containsGenericStructurePolymer(List<PolymerNotation> polymers) throws HELM2HandledException, ChemistryException, IOException, CTKException {
     for (PolymerNotation polymer : polymers) {
@@ -135,8 +135,8 @@ public final class SMILES {
   }
 
   /**
-   * @param smiles
-   * @return
+   * @param smiles given smiles
+   * @return unique extended smiles
    */
   public static String getUniqueExtendedSMILES(String smiles) {
     return smiles;
@@ -147,11 +147,11 @@ public final class SMILES {
    *
    * @param polymer PolymerNotation
    * @return smiles for the sinlge given PolymerNotation
-   * @throws BuilderMoleculeException
-   * @throws HELM2HandledException
-   * @throws CTKSmilesException
-   * @throws CTKException
-   * @throws NotationException
+   * @throws BuilderMoleculeException  if the molecule can't be built
+   * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+   * @throws CTKSmilesException if it contains an invalid smiles
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String getCanonicalSMILESForPolymer(PolymerNotation polymer) throws BuilderMoleculeException, HELM2HandledException, CTKSmilesException, CTKException, NotationException,
@@ -167,11 +167,11 @@ public final class SMILES {
    *
    * @param polymer PolymerNotation
    * @return smiles for the sinlge given PolymerNotation
-   * @throws BuilderMoleculeException
-   * @throws HELM2HandledException
-   * @throws CTKSmilesException
-   * @throws CTKException
-   * @throws NotationException
+   * @throws BuilderMoleculeException  if the molecule can't be built
+   * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+   * @throws CTKSmilesException if it contains an invalid smiles
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String getSMILESforPolymer(PolymerNotation polymer) throws BuilderMoleculeException, HELM2HandledException, CTKSmilesException, CTKException, NotationException, ChemistryException {

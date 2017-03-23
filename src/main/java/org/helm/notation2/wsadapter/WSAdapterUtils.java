@@ -39,9 +39,9 @@ public class WSAdapterUtils {
    * @param json the input JSON
    * @param fullURL the resource URL
    * @return Response
-   * @throws ClientProtocolException
-   * @throws IOException
-   * @throws URISyntaxException
+   * @throws ClientProtocolException if an error exists in the HTTP protocol
+   * @throws IOException IO Error
+   * @throws URISyntaxException url is not valid
    */
   protected static CloseableHttpResponse putResource(String json, String fullURL) throws ClientProtocolException,
       IOException, URISyntaxException {
@@ -64,8 +64,8 @@ public class WSAdapterUtils {
    * 
    * @param fullURL the resource URL
    * @return Response
-   * @throws IOException
-   * @throws URISyntaxException
+   * @throws IOException IO error
+   * @throws URISyntaxException if url is not valid
    */
   protected static CloseableHttpResponse getResource(String fullURL) throws IOException,
       URISyntaxException {

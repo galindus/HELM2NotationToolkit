@@ -47,6 +47,7 @@ public class MonomerWSSaver {
    * .
    * 
    * @param monomer to save
+   * @return webservice response
    */
   public String saveMonomerToStore(Monomer monomer) {
     String res = "";

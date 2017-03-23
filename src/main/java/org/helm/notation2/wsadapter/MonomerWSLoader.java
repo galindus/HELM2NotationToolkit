@@ -75,8 +75,8 @@ public class MonomerWSLoader {
 	 * Constructor using polymerType as parameter. This will be one of PEPTIDE,
 	 * RNA, or CHEM.
 	 *
-	 * @param polymerType
-	 * @throws IOException
+	 * @param polymerType given polymer type
+	 * @throws IOException if polymer type is unknown
 	 */
 	public MonomerWSLoader(String polymerType) throws IOException {
 		if (!Arrays.asList(knownPolymerTypes).contains(polymerType)) {
@@ -96,9 +96,9 @@ public class MonomerWSLoader {
 	 *
 	 * @return Map containing monomers
 	 *
-	 * @throws IOException
-	 * @throws URISyntaxException
-	 * @throws EncoderException
+	 * @throws IOException IO Error
+	 * @throws URISyntaxException string could not be parsed as URI
+	 * @throws EncoderException monomer store could be not encoded
 	 */
 	public Map<String, Monomer> loadMonomerStore(Map<String, Attachment> attachmentDB)
 			throws IOException, URISyntaxException, EncoderException {
@@ -147,8 +147,8 @@ public class MonomerWSLoader {
 	 *
 	 * @return List containing monomer categories
 	 *
-	 * @throws IOException
-	 * @throws URISyntaxException
+	 * @throws IOException IO error
+	 * @throws URISyntaxException url is not valid
 	 */
 	public static List<CategorizedMonomer> loadMonomerCategorization() throws IOException, URISyntaxException {
 		List<CategorizedMonomer> config = new LinkedList<CategorizedMonomer>();

@@ -58,9 +58,9 @@ public final class Converter {
 	
 	
 	/**
-	 * @param m
-	 * @return
-	 * @throws ChemistryException
+	 * @param m given Monomer
+	 * @return Monomer with converted smiles
+	 * @throws ChemistryException if chemistry engine can not be initialized
 	 */
 	public static Monomer convertMonomer(Monomer m) throws ChemistryException{
 		

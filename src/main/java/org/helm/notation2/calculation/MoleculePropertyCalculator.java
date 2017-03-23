@@ -74,7 +74,7 @@ public final class MoleculePropertyCalculator {
    * @param helm2notation input HELM2Notation
    * @return MolecularWeight of the whole HELM
    * @throws BuilderMoleculeException if the whole molecule can not be built
-   * @throws CTKException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static double getMolecularWeight(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, ChemistryException {
@@ -107,7 +107,7 @@ public final class MoleculePropertyCalculator {
    * @param helm2notation input HELM2Notation
    * @return ExactMass of the whole HELM
    * @throws BuilderMoleculeException if the whole molecule can not be built
-   * @throws CTKException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static double getExactMass(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, ChemistryException {
@@ -140,7 +140,7 @@ public final class MoleculePropertyCalculator {
    * @param helm2notation input HELM2Notation
    * @return MolecularFormular of the whole HELM
    * @throws BuilderMoleculeException if the whole molecule can not be built
-   * @throws CTKException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String getMolecularFormular(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, ChemistryException {
@@ -183,12 +183,12 @@ public final class MoleculePropertyCalculator {
   /**
    * method to get all molecule properties for one HELM2Notation
    *
-   * @param helm2notation
+   * @param helm2notation given HELM2 object
    * @return List of molecule properties: molecular formula, molecular weight,
    *         exact mass, extinction coefficient
-   * @throws BuilderMoleculeException
-   * @throws CTKException
-   * @throws ExtinctionCoefficientException
+   * @throws BuilderMoleculeException if helm molecule can not be built
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws ExtinctionCoefficientException if the extinction coefficient can not be calculated
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static MoleculeProperty getMoleculeProperties(HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, ExtinctionCoefficientException, ChemistryException {

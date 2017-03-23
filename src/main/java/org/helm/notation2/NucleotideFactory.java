@@ -242,7 +242,7 @@ public class NucleotideFactory {
   /**
    * save Nucleotide Templates to disk file
    *
-   * @throws java.io.IOException
+   * @throws java.io.IOException if it can't be saved
    */
   public void saveNucleotideTemplates() throws IOException {
     File f = new File(NOTATION_DIRECTORY);

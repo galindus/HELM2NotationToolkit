@@ -56,8 +56,8 @@ public final class MDLUtils {
    * @param helm2notation input HELM2Notation
    * @return MDL
    * @throws BuilderMoleculeException if the helm molecule can not be built
-   * @throws CTKException
-   * @throws NotationException
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String generateMDL(final HELM2Notation helm2notation) throws BuilderMoleculeException, CTKException, NotationException, ChemistryException {

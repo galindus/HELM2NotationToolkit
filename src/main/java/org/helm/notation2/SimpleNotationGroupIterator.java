@@ -19,7 +19,7 @@ public class SimpleNotationGroupIterator {
   /**
    * Constructs a group iterator for a notation string
    *
-   * @param notationString
+   * @param notationString input notation string
    */
   public SimpleNotationGroupIterator(String notationString) {
     this.characters = notationString.toCharArray();

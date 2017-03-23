@@ -47,7 +47,7 @@ public class xHelmNotationParser {
   /**
    * Extracts the HELM string from the root node of the XHELM document
    *
-   * @param rootElement
+   * @param rootElement root element
    * @return the complex notation string
    */
   public static String getHELMNotationString(Element rootElement) {
@@ -59,7 +59,7 @@ public class xHelmNotationParser {
    * Extracts the complex notation string from the root node of the XHELM
    * document
    *
-   * @param rootElement
+   * @param rootElement root element
    * @return the complex notation string
    */
   public static String getComplexNotationString(Element rootElement) {
@@ -70,10 +70,10 @@ public class xHelmNotationParser {
   /**
    * Generates the monomer store from a given XHELM document
    *
-   * @param rootElement
+   * @param rootElement root element
    * @return a monomer store
-   * @throws MonomerException
-   * @throws IOException
+   * @throws MonomerException if monomer is not valid
+   * @throws IOException IO error
    */
   public static MonomerStore getMonomerStore(Element rootElement)
       throws MonomerException, IOException {

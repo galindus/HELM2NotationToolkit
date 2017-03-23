@@ -82,7 +82,7 @@ public class HELM2NotationUtils {
    *
    * @param helm2notation HELM2Notation object
    * @return NotationContainer in JSON-Format
-   * @throws JsonProcessingException
+   * @throws JsonProcessingException json could not produced
    */
   public final static String toJSON(HELM2Notation helm2notation) throws JsonProcessingException {
     ObjectMapper mapper = new ObjectMapper();
@@ -215,7 +215,7 @@ public class HELM2NotationUtils {
    * method to generate a Map of old ids with the new ids
    *
    * @param newIDs
-   * @return
+   * @return {@code Map<String, String>} containing the old ids with the new ids
    */
   private static Map<String, String> generateMapChangeIds(List<String> newIDs) {
     Map<String, String> mapIds = new HashMap<String, String>();
@@ -246,7 +246,7 @@ public class HELM2NotationUtils {
    *
    * @param polymers PolymerNotation
    * @param mapIds Map of old and new Ids
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    */
   private static void section1(List<PolymerNotation> polymers, Map<String, String> mapIds) throws NotationException {
     for (PolymerNotation polymer : polymers) {
@@ -268,7 +268,7 @@ public class HELM2NotationUtils {
    *
    * @param connections ConnectionNotatoin
    * @param mapIds Map of old and new Ids
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    */
   private static void section2(List<ConnectionNotation> connections, Map<String, String> mapIds) throws NotationException {
 
@@ -300,7 +300,7 @@ public class HELM2NotationUtils {
    *
    * @param groupings new GroupingNotations
    * @param mapIds map of old and new Ids
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    */
   private static void section3(List<GroupingNotation> groupings, Map<String, String> mapIds) throws NotationException {
 
@@ -349,7 +349,7 @@ public class HELM2NotationUtils {
   /**
    * method to get the total number of MonomerNotationUnits in a HELMNotation
    * object
-   *
+   * @param helm2notation given HELM2Notation
    * @return number of MonomerNotationUnits
    */
   public static final int getTotalMonomerCount(HELM2Notation helm2notation) {
@@ -362,9 +362,9 @@ public class HELM2NotationUtils {
 
   /**
    * method to check if any of the rna polymers have a modified nucleotide
-   *
+   * @param polymers list of {@link PolymerNotation}
    * @return true if at least one rna polymer has a modified nucleotide
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    */
   public static boolean hasNucleotideModification(List<PolymerNotation> polymers) throws NotationException {
     for (PolymerNotation polymer : getRNAPolymers(polymers)) {
@@ -381,10 +381,10 @@ public class HELM2NotationUtils {
    *
    * @param helm2notation HELM2Notation
    * @return string array of formated nucloeotide sequence
-   * @throws NotationException
-   * @throws RNAUtilsException
-   * @throws HELM2HandledException
-   * @throws org.helm.notation2.exception.NotationException
+   * @throws NotationException if notation is not valid
+   * @throws RNAUtilsException if the polymer is not a RNA/DNA
+   * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+   * @throws org.helm.notation2.exception.NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String[] getFormatedSirnaSequences(HELM2Notation helm2notation) throws NotationException, RNAUtilsException, HELM2HandledException, org.helm.notation2.exception.NotationException,
@@ -394,13 +394,13 @@ public class HELM2NotationUtils {
 
   /**
    * @param helm2notation HELM2Notation
-   * @param paddingChar
-   * @param basePairChar
+   * @param paddingChar  padding character
+   * @param basePairChar base pair character
    * @return string array of formated nucleotide sequence
-   * @throws NotationException
-   * @throws RNAUtilsException
-   * @throws HELM2HandledException
-   * @throws org.helm.notation2.exception.NotationException
+   * @throws NotationException if notation is not valid
+   * @throws RNAUtilsException if the polymer is not a RNA/DNA
+   * @throws HELM2HandledException if it contains HELM2 specific features, so that it can not be casted to HELM1 Format
+   * @throws org.helm.notation2.exception.NotationException if notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String[] getFormatedSirnaSequences(HELM2Notation helm2notation, String paddingChar, String basePairChar) throws NotationException, RNAUtilsException, HELM2HandledException,
@@ -562,7 +562,7 @@ public class HELM2NotationUtils {
   /**
    * @param connections
    * @return
-   * @throws NotationException
+   * @throws NotationException if notation is not valid
    */
   private static Map<Integer, Integer> getSirnaMonomerPositionMap(List<ConnectionNotation> connections) throws NotationException {
     Map<Integer, Integer> map = new HashMap<Integer, Integer>();
@@ -588,7 +588,7 @@ public class HELM2NotationUtils {
   /**
    * method to reverse a String
    *
-   * @param source
+   * @param source given string to reverse
    * @return reversed String
    */
   private static String reverseString(String source) {
@@ -605,8 +605,7 @@ public class HELM2NotationUtils {
   /**
    * decompose the HELM2 into smaller HELM2 objects
    *
-   * @param polymers list of PolymerNotations
-   * @param connection: list contains only selfcycle connections
+   * @param helm2notation HELM2 object
    * @return list of ContainerHELM2 objects
    */
   public List<HELM2Notation> decompose(HELM2Notation helm2notation) {
@@ -677,7 +676,7 @@ public class HELM2NotationUtils {
       LOG.info("Parse HELM2");
       parser.parse(notation);
       LOG.info("Parsing was successful");
-    } catch (ExceptionState | IOException | JDOMException e) {
+    } catch (ExceptionState e) {
       e.printStackTrace();
       throw new ParserException("HELMNotation is not valid: " + notation);
     }

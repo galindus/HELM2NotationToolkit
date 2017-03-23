@@ -132,7 +132,7 @@ public class MonomerFactory {
   /**
    * retruns the monomer database
    *
-   * @return Map as Map<String, Map<String, Monomer>>
+   * @return Map as {@code Map<String, Map<String, Monomer>>}
    */
   public synchronized Map<String, Map<String, Monomer>> getMonomerDB() {
     return getMonomerDB(true);
@@ -142,8 +142,8 @@ public class MonomerFactory {
    * returns the monomer database including monomers that where temporary marked
    * as new, else without those monomers
    *
-   * @param includeNewMonomers
-   * @return Map as Map<String, Map<String, Monomer>>
+   * @param includeNewMonomers  if true, then the new monomers will be added to the monomer db
+   * @return Map as {@code Map<String, Map<String, Monomer>>}
    */
   public synchronized Map<String, Map<String, Monomer>> getMonomerDB(
       boolean includeNewMonomers) {
@@ -278,14 +278,11 @@ public class MonomerFactory {
   }
 
   /**
-   * Initialize MonomerCache and returns the singlton Factory class
+   * Initialize MonomerCache and returns the singleton Factory class
    *
-   * @return MonomerFactory
-   * @throws ChemistryException
-   * @throws CTKException
-   * @throws org.helm.notation2.exception.MonomerException
-   * @throws java.io.IOException
-   * @throws org.jdom.JDOMException
+   * @return MonomerFactory current monomerfactory
+   * @throws MonomerLoadingException if the monomer could not be loaded from the source
+   * @throws ChemistryException if the chemistry could not be initialized
    */
   public static MonomerFactory getInstance() throws MonomerLoadingException, ChemistryException {
     if (null == instance) {
@@ -354,7 +351,9 @@ public class MonomerFactory {
   /**
    * To add new monomer into monomerCache
    *
-   * @param monomer
+   * @param monomer given Monomer
+   * @throws IOException if monomer store can not be read
+   * @throws MonomerException if monomer is not valid
    */
   public synchronized void addNewMonomer(Monomer monomer) throws IOException,
       MonomerException {
@@ -392,13 +391,13 @@ public class MonomerFactory {
   /**
    * Build an MonomerCache object with monomerDBXML String
    *
-   * @param monomerDBXML
+   * @param monomerDBXML monomer db in xml format as string
    * @return MonomerCache
-   * @throws org.helm.notation2.exception.MonomerException
-   * @throws java.io.IOException
-   * @throws org.jdom.JDOMException
-   * @throws ChemistryException
-   * @throws CTKException
+   * @throws org.helm.notation2.exception.MonomerException if monomer is not valid
+   * @throws java.io.IOException if string can not be read
+   * @throws org.jdom2.JDOMException if xml file is not valid
+   * @throws ChemistryException if chemistry could not be initialized
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    */
   public MonomerCache buildMonomerCacheFromXML(String monomerDBXML)
       throws MonomerException, IOException, JDOMException, ChemistryException, CTKException {
@@ -411,9 +410,9 @@ public class MonomerFactory {
    * merge remote monomerCache with local monomerCache, will throw exception if
    * conflicts found. Client needs to resolve conflicts prior to calling merge
    *
-   * @param remoteMonomerCache
-   * @throws java.io.IOException
-   * @throws org.helm.notation2.exception.MonomerException
+   * @param remoteMonomerCache remote monomer cache
+   * @throws java.io.IOException if monomer store can not be read
+   * @throws org.helm.notation2.exception.MonomerException if monomer is not valid
    */
   public synchronized void merge(MonomerCache remoteMonomerCache)
       throws IOException, MonomerException {
@@ -443,9 +442,9 @@ public class MonomerFactory {
   /**
    * replace local cache with remote one completely, may cause loss of data
    *
-   * @param remoteMonomerCache
-   * @throws java.io.IOException
-   * @throws org.helm.notation2.exception.MonomerException
+   * @param remoteMonomerCache remote monomer cache
+   * @throws java.io.IOException if monomer store can not be read
+   * @throws org.helm.notation2.exception.MonomerException if monomer is not valid
    */
   public synchronized void setMonomerCache(MonomerCache remoteMonomerCache)
       throws IOException, MonomerException {
@@ -458,11 +457,11 @@ public class MonomerFactory {
 
   /**
    *
-   * @param remoteMonomerCache
+   * @param remoteMonomerCache remoteMonomerCache
    * @return localMonomer and remoteMonomer mismatch, key is local, value is
    *         remote
-   * @throws java.io.IOException
-   * @throws org.helm.notation2.exception.MonomerException
+   * @throws java.io.IOException if monomer store can not be read
+   * @throws org.helm.notation2.exception.MonomerException if monomer is not valid
    */
   public synchronized Map<Monomer, Monomer> getConflictedMonomerMap(
       MonomerCache remoteMonomerCache) throws IOException,
@@ -615,8 +614,8 @@ public class MonomerFactory {
           URISyntaxException, EncoderException {
     Map<String, Map<String, Monomer>> monomerDB = new TreeMap<String, Map<String, Monomer>>(String.CASE_INSENSITIVE_ORDER);
 
-    monomerDB.put("PEPTIDE", new MonomerWSLoader("PEPTIDE").loadMonomerStore(attachments));
-    monomerDB.put("RNA", new MonomerWSLoader("RNA").loadMonomerStore(attachments));
+  //  monomerDB.put("PEPTIDE", new MonomerWSLoader("PEPTIDE").loadMonomerStore(attachments));
+  //  monomerDB.put("RNA", new MonomerWSLoader("RNA").loadMonomerStore(attachments));
     monomerDB.put("CHEM", new MonomerWSLoader("CHEM").loadMonomerStore(attachments));
 
     return monomerDB;
@@ -803,7 +802,8 @@ public class MonomerFactory {
   /**
    * save monomerCache to disk file
    *
-   * @throws java.io.IOException
+   * @throws java.io.IOException if the monomer can not be saved to disk file
+   * @throws MonomerException if monomer is not valid
    */
   public void saveMonomerCache() throws IOException, MonomerException {
     File f = new File(NOTATION_DIRECTORY);

@@ -73,10 +73,10 @@ public final class xHelmNotationExporter {
    *
    * @param helm2notation, HELM2Notation object
    * @return xhelm
-   * @throws MonomerException
-   * @throws JDOMException
-   * @throws IOException
-   * @throws ChemistryException
+   * @throws MonomerException if monomer is not valid
+   * @throws JDOMException jdome error
+   * @throws IOException IO error
+   * @throws ChemistryException if chemistry engine can not be initialized
    */
   public static String getXHELM2(HELM2Notation helm2notation) throws MonomerException, IOException, JDOMException, ChemistryException {
     set = new HashSet<Monomer>();
@@ -123,13 +123,13 @@ public final class xHelmNotationExporter {
    *
    * @param helm2notation, HELM2Notation object
    * @return xhelm
-   * @throws MonomerException
-   * @throws HELM1FormatException
-   * @throws JDOMException
-   * @throws IOException
-   * @throws NotationException
-   * @throws CTKException
-   * @throws ValidationException
+   * @throws MonomerException if monomer is not valid
+   * @throws HELM1FormatException if HELM input contains HELM2 features
+   * @throws JDOMException jdome error
+   * @throws IOException IO error
+   * @throws NotationException if notation is not valid
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+   * @throws ValidationException if helm2 notation is not valid
    * @throws ChemistryException if the Chemistry Engine can not be initialized
    */
   public static String getXHELM(HELM2Notation helm2notation) throws MonomerException, HELM1FormatException,
@@ -178,10 +178,10 @@ public final class xHelmNotationExporter {
    * method to add the monomer to the database if it is an adhoc monomer
    *
    * @param monomerNotation MonomerNotation
-   * @throws JDOMException
-   * @throws IOException
-   * @throws ChemistryException
-   * @throws CTKException
+   * @throws JDOMException jdome error
+   * @throws IOException IO error
+   * @throws ChemistryException if chemistry engine can not be initialized
+   * @throws CTKException general ChemToolKit exception passed to HELMToolKit
    */
   private static void addAdHocMonomer(MonomerNotation monomerNotation) throws IOException, JDOMException, ChemistryException {
     Monomer monomer = MonomerFactory.getInstance().getMonomerStore().getMonomer(monomerNotation.getType(), monomerNotation.getUnit().replace("[", "").replace("]", ""));

@@ -46,150 +46,175 @@ import org.jdom2.JDOMException;
  */
 public final class SequenceConverter {
 
-  /**
-   * Default constructor.
-   */
-  private SequenceConverter() {
+	/**
+	 * Default constructor.
+	 */
+	private SequenceConverter() {
 
-  }
+	}
 
-  /**
-   * method to read a peptide sequence and generate a HELM2Notation object of it
-   *
-   * @param notation
-   * @return HELM2Notation object
-   * @throws FastaFormatException if the peptide sequence is not in the right
-   *           format
-   * @throws NotationException if the notation object can not be built
-   * @throws ChemistryException
-   */
-  public static HELM2Notation readPeptide(String notation) throws FastaFormatException, NotationException, ChemistryException {
-    HELM2Notation helm2notation = new HELM2Notation();
-    PolymerNotation polymer = new PolymerNotation("PEPTIDE1");
-    helm2notation.addPolymer(new PolymerNotation(polymer.getPolymerID(), FastaFormat.generateElementsOfPeptide(notation, polymer.getPolymerID())));
-    return helm2notation;
-  }
+	/**
+	 * method to read a peptide sequence and generate a HELM2Notation object of
+	 * it
+	 *
+	 * @param notation peptide sequence
+	 * @return HELM2Notation object
+	 * @throws FastaFormatException
+	 *             if the peptide sequence is not in the right format
+	 * @throws NotationException
+	 *             if the notation object can not be built
+	 * @throws ChemistryException if chemistry engine can not be initialized
+	 */
+	public static HELM2Notation readPeptide(String notation)
+			throws FastaFormatException, NotationException, ChemistryException {
+		HELM2Notation helm2notation = new HELM2Notation();
+		PolymerNotation polymer = new PolymerNotation("PEPTIDE1");
+		helm2notation.addPolymer(new PolymerNotation(polymer.getPolymerID(),
+				FastaFormat.generateElementsOfPeptide(notation, polymer.getPolymerID())));
+		return helm2notation;
+	}
 
-  /**
-   * method to read a rna/dna sequence and generate a HELM2Notation object of it
-   *
-   * @param notation
-   * @return HELM2Notation object
-   * @throws FastaFormatException if the rna/dna sequence is not in the right
-   *           format
-   * @throws NotationException if the notation object can not be built
-   * @throws JDOMException
-   * @throws IOException
-   * @throws ChemistryException
-   */
-  public static HELM2Notation readRNA(String notation) throws FastaFormatException, NotationException, IOException, JDOMException, ChemistryException {
-    HELM2Notation helm2notation = new HELM2Notation();
-    PolymerNotation polymer = new PolymerNotation("RNA1");
-    if (!(FastaFormat.isNormalDirection(notation))) {
-      String annotation = "3'-5'";
-      helm2notation.addPolymer(new PolymerNotation(polymer.getPolymerID(), FastaFormat.generateElementsforRNA(notation, polymer.getPolymerID()), annotation));
-    } else {
-      helm2notation.addPolymer(new PolymerNotation(polymer.getPolymerID(), FastaFormat.generateElementsforRNA(notation, polymer.getPolymerID())));
-    }
+	/**
+	 * method to read a rna/dna sequence and generate a HELM2Notation object of
+	 * it
+	 *
+	 * @param notation rna/dna sequence
+	 * @return HELM2Notation object
+	 * @throws FastaFormatException
+	 *             if the rna/dna sequence is not in the right format
+	 * @throws NotationException
+	 *             if the notation object can not be built
+	 * @throws ChemistryException if chemistry engine can not be initialized
+	 * @throws NucleotideLoadingException if nucleotides can not be loaded
+	 */
+	public static HELM2Notation readRNA(String notation)
+			throws FastaFormatException, NotationException, ChemistryException, NucleotideLoadingException {
+		HELM2Notation helm2notation = new HELM2Notation();
+		PolymerNotation polymer = new PolymerNotation("RNA1");
+		if (!(FastaFormat.isNormalDirection(notation))) {
+			String annotation = "3'-5'";
+			helm2notation.addPolymer(new PolymerNotation(polymer.getPolymerID(),
+					FastaFormat.generateElementsforRNA(notation, polymer.getPolymerID()), annotation));
+		} else {
+			helm2notation.addPolymer(new PolymerNotation(polymer.getPolymerID(),
+					FastaFormat.generateElementsforRNA(notation, polymer.getPolymerID())));
+		}
 
-    return helm2notation;
-  }
+		return helm2notation;
+	}
 
-  /**
-   * method to get for all rna/dnas the nucleotide sequence form an
-   * HELM2Notation
-   *
-   * @param helm2notation input HELM2Notation
-   * @return rna/dna nucleotide sequences divided with white space
-   * @throws NucleotideLoadingException
-   * @throws NotationException
-   * @throws HELM2HandledException if HELM2 features are involved
-   * @throws ChemistryException
-   */
-  public static String getNucleotideSequenceFromNotation(HELM2Notation helm2notation) throws NotationException, NucleotideLoadingException, HELM2HandledException, ChemistryException {
-    List<PolymerNotation> polymers = helm2notation.getListOfPolymers();
-    StringBuffer sb = new StringBuffer();
-    for (PolymerNotation polymer : polymers) {
-      try {
-        sb.append(RNAUtils.getNucleotideSequence(polymer) + " ");
-      } catch (RNAUtilsException e) {
-        e.printStackTrace();
-        throw new NotationException("Input complex notation contains non-nucleic acid polymer");
-      }
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
-  }
+	/**
+	 * method to get for all rna/dnas the nucleotide sequence form an
+	 * HELM2Notation
+	 *
+	 * @param helm2notation
+	 *            input HELM2Notation
+	 * @return rna/dna nucleotide sequences divided with white space
+	 * @throws NucleotideLoadingException if nucleotides can not be loaded
+	 * @throws NotationException if notation is not valid
+	 * @throws HELM2HandledException
+	 *             if HELM2 features are involved
+	 * @throws ChemistryException if chemistry engine can not be initialized
+	 */
+	public static String getNucleotideSequenceFromNotation(HELM2Notation helm2notation)
+			throws NotationException, NucleotideLoadingException, HELM2HandledException, ChemistryException {
+		List<PolymerNotation> polymers = helm2notation.getListOfPolymers();
+		StringBuffer sb = new StringBuffer();
+		for (PolymerNotation polymer : polymers) {
+			try {
+				sb.append(RNAUtils.getNucleotideSequence(polymer) + " ");
+			} catch (RNAUtilsException e) {
+				e.printStackTrace();
+				throw new NotationException("Input complex notation contains non-nucleic acid polymer");
+			}
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
 
-  /**
-   * method to get for all peptides the sequence
-   *
-   * @param helm2notation HELM2Notation
-   * @return rna sequences divided by white space
-   * @throws HELM2HandledException if the polymer contains HELM2 features
-   * @throws PeptideUtilsException if the polymer is not a peptide
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws ChemistryException if the Chemistry Engine can not be initialized
-   */
-  public static String getPeptideSequenceFromNotation(HELM2Notation helm2notation) throws HELM2HandledException, PeptideUtilsException, org.helm.notation2.exception.NotationException, ChemistryException {
-    List<PolymerNotation> polymers = helm2notation.getListOfPolymers();
-    StringBuffer sb = new StringBuffer();
-    for (PolymerNotation polymer : polymers) {
-      sb.append(PeptideUtils.getSequence(polymer) + " ");
+	/**
+	 * method to get for all peptides the sequence
+	 *
+	 * @param helm2notation
+	 *            HELM2Notation
+	 * @return rna sequences divided by white space
+	 * @throws HELM2HandledException
+	 *             if the polymer contains HELM2 features
+	 * @throws PeptideUtilsException
+	 *             if the polymer is not a peptide
+	 * @throws org.helm.notation2.exception.NotationException if notation is not valid
+	 * @throws ChemistryException
+	 *             if the Chemistry Engine can not be initialized
+	 */
+	public static String getPeptideSequenceFromNotation(HELM2Notation helm2notation) throws HELM2HandledException,
+			PeptideUtilsException, org.helm.notation2.exception.NotationException, ChemistryException {
+		List<PolymerNotation> polymers = helm2notation.getListOfPolymers();
+		StringBuffer sb = new StringBuffer();
+		for (PolymerNotation polymer : polymers) {
+			sb.append(PeptideUtils.getSequence(polymer) + " ");
 
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
-  }
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
 
-  /**
-   * method to generate for all rna polymers the natural analogue sequence
-   *
-   * @param helm2Notation input HELm2Notation
-   * @return natural analogue sequence(s)
-   * @throws NotationException if the input complex notation contains
-   *           non-nucleid acid polymer(s)
-   * @throws HELM2HandledException if the polymer(s) contain(s) HELM2 features
-   * @throws ChemistryException if the Chemistry Engine can not be initialized
-   */
-  public static String getNucleotideNaturalAnalogSequenceFromNotation(HELM2Notation helm2Notation) throws NotationException, HELM2HandledException, ChemistryException {
-    List<PolymerNotation> polymers = helm2Notation.getListOfPolymers();
-    StringBuffer sb = new StringBuffer();
-    for (PolymerNotation polymer : polymers) {
-      try {
-        sb.append(RNAUtils.getNaturalAnalogSequence(polymer) + " ");
-      } catch (RNAUtilsException e) {
-        e.printStackTrace();
-        throw new NotationException("Input complex notation contains non-nucleid acid polymer");
-      }
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
-  }
+	/**
+	 * method to generate for all rna polymers the natural analogue sequence
+	 *
+	 * @param helm2Notation
+	 *            input HELm2Notation
+	 * @return natural analogue sequence(s)
+	 * @throws NotationException
+	 *             if the input complex notation contains non-nucleid acid
+	 *             polymer(s)
+	 * @throws HELM2HandledException
+	 *             if the polymer(s) contain(s) HELM2 features
+	 * @throws ChemistryException
+	 *             if the Chemistry Engine can not be initialized
+	 */
+	public static String getNucleotideNaturalAnalogSequenceFromNotation(HELM2Notation helm2Notation)
+			throws NotationException, HELM2HandledException, ChemistryException {
+		List<PolymerNotation> polymers = helm2Notation.getListOfPolymers();
+		StringBuffer sb = new StringBuffer();
+		for (PolymerNotation polymer : polymers) {
+			try {
+				sb.append(RNAUtils.getNaturalAnalogSequence(polymer) + " ");
+			} catch (RNAUtilsException e) {
+				e.printStackTrace();
+				throw new NotationException("Input complex notation contains non-nucleid acid polymer");
+			}
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
 
-  /**
-   * method to generate for all peptide polymers the natural analogue sequence
-   *
-   * @param helm2Notation input HELM2Notation
-   * @return natural analogue sequence(s)
-   * @throws NotationException if the input complex notation contains
-   *           non-peptide polymer(s)
-   * @throws HELM2HandledException if the polymer(s) contain(s) HELM2 features
-   * @throws PeptideUtilsException if the polymer is not a peptide
-   * @throws org.helm.notation2.exception.NotationException
-   * @throws ChemistryException if the Chemistry Engine can not be initialized
-   */
-  public static String getPeptideNaturalAnalogSequenceFromNotation(HELM2Notation helm2Notation) throws HELM2HandledException, PeptideUtilsException, NotationException, ChemistryException {
-    List<PolymerNotation> polymers = helm2Notation.getListOfPolymers();
-    StringBuffer sb = new StringBuffer();
-    for (PolymerNotation polymer : polymers) {
-      if (!(polymer.getPolymerID() instanceof PeptideEntity)) {
-        throw new NotationException("Input complex notation contains non-peptide polymer(s)");
-      }
-      sb.append(PeptideUtils.getNaturalAnalogueSequence(polymer) + " ");
-    }
-    sb.setLength(sb.length() - 1);
-    return sb.toString();
-  }
+	/**
+	 * method to generate for all peptide polymers the natural analogue sequence
+	 *
+	 * @param helm2Notation
+	 *            input HELM2Notation
+	 * @return natural analogue sequence(s)
+	 * @throws NotationException
+	 *             if the input complex notation contains non-peptide polymer(s)
+	 * @throws HELM2HandledException
+	 *             if the polymer(s) contain(s) HELM2 features
+	 * @throws PeptideUtilsException
+	 *             if the polymer is not a peptide
+	 * @throws ChemistryException
+	 *             if the Chemistry Engine can not be initialized
+	 */
+	public static String getPeptideNaturalAnalogSequenceFromNotation(HELM2Notation helm2Notation)
+			throws HELM2HandledException, PeptideUtilsException, NotationException, ChemistryException {
+		List<PolymerNotation> polymers = helm2Notation.getListOfPolymers();
+		StringBuffer sb = new StringBuffer();
+		for (PolymerNotation polymer : polymers) {
+			if (!(polymer.getPolymerID() instanceof PeptideEntity)) {
+				throw new NotationException("Input complex notation contains non-peptide polymer(s)");
+			}
+			sb.append(PeptideUtils.getNaturalAnalogueSequence(polymer) + " ");
+		}
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
+	}
 
 }
