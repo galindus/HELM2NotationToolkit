@@ -5,7 +5,7 @@
     
   	<groupId>org.pistoiaalliance.helm</groupId>
 	<artifactId>helm2-notationtoolkit</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1</version>
 	<packaging>jar</packaging>
   
   <name>helm2-notationtoolkit</name>
@@ -169,18 +169,19 @@
 <dependency>
   <groupId>org.pistoiaalliance.helm</groupId>
   <artifactId>helm2-helmnotationparser</artifactId>
-  <version>1.1.0</version>
+  <version>1.2.0</version>
 </dependency>
 <dependency>
   <groupId>org.pistoiaalliance.helm</groupId>
   <artifactId>helm2-chemistrytoolkit</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 <dependency>
   <groupId>org.pistoiaalliance.helm</groupId>
   <artifactId>helm2-chemistrytoolkit-cdk</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
+
     </dependencies>
 
 	

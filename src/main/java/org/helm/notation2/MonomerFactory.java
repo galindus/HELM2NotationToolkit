@@ -614,8 +614,8 @@ public class MonomerFactory {
           URISyntaxException, EncoderException {
     Map<String, Map<String, Monomer>> monomerDB = new TreeMap<String, Map<String, Monomer>>(String.CASE_INSENSITIVE_ORDER);
 
-  //  monomerDB.put("PEPTIDE", new MonomerWSLoader("PEPTIDE").loadMonomerStore(attachments));
-  //  monomerDB.put("RNA", new MonomerWSLoader("RNA").loadMonomerStore(attachments));
+    monomerDB.put("PEPTIDE", new MonomerWSLoader("PEPTIDE").loadMonomerStore(attachments));
+    monomerDB.put("RNA", new MonomerWSLoader("RNA").loadMonomerStore(attachments));
     monomerDB.put("CHEM", new MonomerWSLoader("CHEM").loadMonomerStore(attachments));
 
     return monomerDB;
