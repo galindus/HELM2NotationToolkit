@@ -68,7 +68,7 @@ public class MonomerStoreConfiguration {
   private static final String WEBSERVICE_NUCLEOTIDES_PATH = "webservice.nucleotides.path";
 
   private static final String WEBSERVICE_NUCLEOTIDES_PUT_PATH = "webservice.nucleotides.put.path";
-
+ 
   private static final String USE_EXTERNAL_MONOMERS = "use.external.monomers";
 
   private static final String EXTERNAL_MONOMERS_PATH = "external.monomers.path";
@@ -76,6 +76,10 @@ public class MonomerStoreConfiguration {
   private static final String USE_EXTERNAL_NUCLEOTIDES = "use.external.nucleotides";
 
   private static final String EXTERNAL_NUCLEOTIDES_PATH = "external.nucleotides.path";
+  
+  private static final String USE_EXTERNAL_ATTACHMENTS = "use.external.attachments";
+  
+  private static final String EXTERNAL_ATTACHMENTS_PATH = "external.attachments.path";
 
   private static MonomerStoreConfiguration _instance;
 
@@ -86,10 +90,14 @@ public class MonomerStoreConfiguration {
   private boolean isUseExternalMonomers;
 
   private boolean isUseExternalNucleotides;
+  
+  private boolean isUseExternalAttachments;
 
   private String externalMonomersPath;
 
   private String externalNucleotidesPath;
+  
+  private String externalAttachmentsPath;
 
   private String webserviceMonomersURL;
 
@@ -102,7 +110,7 @@ public class MonomerStoreConfiguration {
   private String webserviceNucleotidesPath;
 
   private String webserviceNucleotidesPutPath;
-
+  
   private String webserviceEditorCategorizationURL;
 
   private String webserviceEditorCategorizationPath;
@@ -123,6 +131,7 @@ public class MonomerStoreConfiguration {
     isUpdateAutomatic = true;
     isUseExternalMonomers = false;
     isUseExternalNucleotides = false;
+    setUseExternalAttachments(false);
     webserviceMonomersURL = "";
     webserviceMonomersPath = "";
     webserviceMonomersPutPath = "";
@@ -130,6 +139,7 @@ public class MonomerStoreConfiguration {
     webserviceEditorCategorizationPath = "";
     externalNucleotidesPath = "";
     externalMonomersPath = "";
+    setExternalAttachmentsPath("");
   }
 
   /**
@@ -163,6 +173,7 @@ public class MonomerStoreConfiguration {
   public boolean isUpdateAutomatic() {
     return isUpdateAutomatic;
   }
+  
 
   /**
    * Sets whether all webservices should be fetched at all times, or be
@@ -290,6 +301,8 @@ public class MonomerStoreConfiguration {
   public String getExternalMonomersPath() {
     return externalMonomersPath;
   }
+  
+
 
   /**
    * Refreshes the configuration using the local properties file.
@@ -344,11 +357,14 @@ public class MonomerStoreConfiguration {
       webserviceNucleotidesPutPath = conf.getString(WEBSERVICE_NUCLEOTIDES_PUT_PATH);
       webserviceEditorCategorizationURL = conf.getString(WEBSERVICE_EDITOR_CATEGORIZATION_URL);
       webserviceEditorCategorizationPath = conf.getString(WEBSERVICE_EDITOR_CATEGORIZATION_PATH);
+ 
       /* load from external xml file */
       isUseExternalMonomers = conf.getBoolean(USE_EXTERNAL_MONOMERS);
       externalMonomersPath = conf.getString(EXTERNAL_MONOMERS_PATH);
       isUseExternalNucleotides = conf.getBoolean(USE_EXTERNAL_NUCLEOTIDES);
       externalNucleotidesPath = conf.getString(EXTERNAL_NUCLEOTIDES_PATH);
+      isUseExternalAttachments = conf.getBoolean(USE_EXTERNAL_ATTACHMENTS);
+      externalAttachmentsPath = conf.getString(EXTERNAL_ATTACHMENTS_PATH);
 
     } catch (ConfigurationException | NoSuchElementException e) {
       resetConfigToDefault();
@@ -369,4 +385,20 @@ public class MonomerStoreConfiguration {
 
     return res;
   }
+
+public String getExternalAttachmentsPath() {
+	return externalAttachmentsPath;
+}
+
+public void setExternalAttachmentsPath(String externalAttachmentsPath) {
+	this.externalAttachmentsPath = externalAttachmentsPath;
+}
+
+public boolean isUseExternalAttachments() {
+	return isUseExternalAttachments;
+}
+
+public void setUseExternalAttachments(boolean isUseExternalAttachments) {
+	this.isUseExternalAttachments = isUseExternalAttachments;
+}
 }

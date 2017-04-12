@@ -41,6 +41,7 @@ import org.apache.http.impl.client.HttpClients;
 // import org.apache.http.impl.client.WinHttpClients;
 import org.apache.http.util.EntityUtils;
 import org.helm.notation2.Attachment;
+import org.helm.notation2.AttachmentLoader;
 import org.helm.notation2.Monomer;
 import org.helm.notation2.exception.EncoderException;
 import org.helm.notation2.exception.MonomerLoadingException;
@@ -309,7 +310,7 @@ public class MonomerWSLoader {
 				 * Issue 4 all attachment points have to be fully defined for
 				 * any new monomer
 				 */
-				if (validateAttachment(currentAttachment)) {
+				if (AttachmentLoader.validateAttachment(currentAttachment)) {
 					currentAttachment.setCapGroupSMILES(
 							attachmentDB.get(currentAttachment.getAlternateId()).getCapGroupSMILES());
 					attachments.add(currentAttachment);
@@ -350,27 +351,7 @@ public class MonomerWSLoader {
 		return attachments;
 	}
 
-	private boolean validateAttachment(Attachment currentAttachment) {
-		try {
-			currentAttachment.getId();
-			
-			if (currentAttachment.getAlternateId() == "null" || currentAttachment.getAlternateId().isEmpty()) {
-				return false;
-			}
-			if (currentAttachment.getCapGroupName() == "null" || currentAttachment.getCapGroupName().isEmpty()) {
-				return false;
-			}
-			if (currentAttachment.getCapGroupSMILES() == "null" || currentAttachment.getCapGroupSMILES().isEmpty()) {
-				return false;
-			}
-			if (currentAttachment.getLabel().equals("null") || currentAttachment.getLabel().equals(" ")) {
-				return false;
-			}
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
+
 
 	/**
 	 * Private routine to deserialize JSON containing monomer categorization

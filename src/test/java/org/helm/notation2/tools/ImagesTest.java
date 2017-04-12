@@ -29,13 +29,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.helm.chemtoolkit.CTKException;
+import org.helm.notation2.Attachment;
 import org.helm.notation2.Chemistry;
 import org.helm.notation2.Monomer;
 import org.helm.notation2.MonomerFactory;
+import org.helm.notation2.MonomerStore;
 import org.helm.notation2.exception.BuilderMoleculeException;
 import org.helm.notation2.exception.ChemistryException;
+import org.helm.notation2.exception.MonomerException;
 import org.helm.notation2.exception.NotationException;
 import org.helm.notation2.exception.ParserException;
 import org.helm.notation2.tools.Images;
@@ -106,6 +111,71 @@ public class ImagesTest {
       Files.createDirectories(Paths.get("test-output"));
     }
     try (FileOutputStream out = new FileOutputStream("test-output" + File.separator + "TestGenerationImageOfHELMNotationSimpleCase.png")) {
+      out.write(result);
+    }
+  }
+  
+
+  @Test
+  public void TestGenerationImageOfHELMNotationExtendedAttachments() throws ParserException, JDOMException, BuilderMoleculeException, CTKException, IOException, NotationException, ChemistryException, MonomerException {
+	  Monomer testExtended = new Monomer();
+	  testExtended.setPolymerType("CHEM");
+	  testExtended.setMonomerType("Undefined");
+	  testExtended.setCanSMILES("[H:1]CC(C[H:2])C(C[H:3])CC[H:4]");
+	  testExtended.setName("testEx");
+	  testExtended.setAlternateId("testEx");
+	  List<Attachment> attachments = new ArrayList<Attachment>();
+	    Attachment att = new Attachment();
+	    att.setAlternateId("R1-OH");
+	    att.setLabel("R1");
+	    att.setCapGroupName("OH");
+	    att.setCapGroupSMILES("[*:1][OH]");
+	    attachments.add( att);
+	    
+	    att = new Attachment();
+	    att.setAlternateId("R2-OH");
+	    att.setLabel("R2");
+	    att.setCapGroupName("OH");
+	    att.setCapGroupSMILES("[*:2][OH]");
+	    attachments.add( att);
+
+	    att = new Attachment();
+	    att.setAlternateId("R3-OH");
+	    att.setLabel("R3");
+	    att.setCapGroupName("OH");
+	    att.setCapGroupSMILES("[*:3][OH]");
+	    attachments.add( att);
+	    
+	    att = new Attachment();
+	    att.setAlternateId("R4-N");
+	    att.setLabel("R4");
+	    att.setCapGroupName("N");
+	    att.setCapGroupSMILES("[*:4][N]");
+	    attachments.add(att);
+	    
+	   
+	    testExtended.setAttachmentList(attachments);
+	    MonomerFactory.getInstance().getMonomerStore().addMonomer(testExtended);
+	  
+	  String notation = "CHEM1{[testEx]}$$$$";
+    byte[] result = Images.generateImageHELMMolecule(HELM2NotationUtils.readNotation(notation));
+    if (!Files.exists(Paths.get("test-output"))) {
+      Files.createDirectories(Paths.get("test-output"));
+    }
+    try (FileOutputStream out = new FileOutputStream("test-output" + File.separator + "TestGenerationImageOfHELMNotationExtendedAttachments.png")) {
+      out.write(result);
+    }
+  }
+  
+  @Test
+  public void TestGenerationImageOfHELMNotationExtendedAttachmentsR() throws ParserException, JDOMException, BuilderMoleculeException, CTKException, IOException, NotationException, ChemistryException, MonomerException {
+	 
+	  String notation = "PEPTIDE1{[PEN]}$$$$";
+    byte[] result = Images.generateImageHELMMolecule(HELM2NotationUtils.readNotation(notation));
+    if (!Files.exists(Paths.get("test-output"))) {
+      Files.createDirectories(Paths.get("test-output"));
+    }
+    try (FileOutputStream out = new FileOutputStream("test-output" + File.separator + "TestGenerationImageOfHELMNotationExtendedAttachmentsR.png")) {
       out.write(result);
     }
   }
