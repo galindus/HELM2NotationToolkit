@@ -30,6 +30,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.helm.chemtoolkit.CTKException;
+import org.helm.notation2.Attachment;
 import org.helm.notation2.MoleculeProperty;
 import org.helm.notation2.Monomer;
 import org.helm.notation2.MonomerFactory;
@@ -649,6 +650,18 @@ public class WebService {
 		String result = SMILES.getCanonicalSMILESForAll((validate(notation)));
 		setMonomerFactoryToDefault(notation);
 		return result;
+	}
+	
+	/**
+	 * method to generate a smiles with atom mapping for a given molfile with the given attachments
+	 * @param molfile given molfile
+	 * @param attachments given attachments
+	 * @return smiles with atom mapping
+	 * @throws CTKException general ChemToolKit exception passed to HELMToolKit
+	 * @throws ChemistryException if the chemistry engine can not be initialized
+	 */
+	public String convertMolFileSMILESWithAtomMapping(String molfile, List<Attachment> attachments) throws CTKException, ChemistryException{
+		return SMILES.convertMolToSMILESWithAtomMapping(molfile, attachments);
 	}
 
 }

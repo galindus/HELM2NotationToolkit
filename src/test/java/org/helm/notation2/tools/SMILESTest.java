@@ -28,6 +28,8 @@ import java.io.IOException;
 import org.helm.chemtoolkit.CTKException;
 import org.helm.chemtoolkit.CTKSmilesException;
 import org.helm.notation2.Chemistry;
+import org.helm.notation2.Monomer;
+import org.helm.notation2.MonomerFactory;
 import org.helm.notation2.exception.BuilderMoleculeException;
 import org.helm.notation2.exception.ChemistryException;
 import org.helm.notation2.exception.HELM2HandledException;
@@ -228,6 +230,16 @@ public class SMILESTest {
   public void testAttachmentMonomer() throws CTKSmilesException, BuilderMoleculeException, CTKException, NotationException, ChemistryException, ParserException, JDOMException{
 	  String notation = "PEPTIDE1{A.A.C.G.[dK].E.C.H.A}$PEPTIDE1,PEPTIDE1,3:R3-7:R3$$$";
 	  System.out.println(SMILES.getCanonicalSMILESForAll(HELM2NotationUtils.readNotation(notation)));
+  }
+  
+  @Test
+  public void test() throws MonomerLoadingException, ChemistryException, CTKException{
+		String polymerType = "PEPTIDE";
+		String monomerID = "C";
+		Monomer monomer;
+
+		monomer = MonomerFactory.getInstance().getMonomerStore().getMonomer(polymerType, monomerID);
+		SMILES.convertMolToSMILESWithAtomMapping(monomer.getMolfile(), monomer.getAttachmentList());
   }
 
 }
