@@ -690,7 +690,7 @@ public class MonomerFactory {
 			logger.log(Level.INFO, "WebService '' is used for monomer cache initialization");
 		} else if (MonomerStoreConfiguration.getInstance().isUseExternalMonomers()) {
 			try {
-				in = new FileInputStream(MONOMER_DB_FILE_PATH);
+				in = new FileInputStream(MonomerStoreConfiguration.getInstance().getExternalMonomersPath());
 				cache = buildMonomerCacheFromXML(in);
 				validate(cache.getMonomerDB());
 				logger.log(Level.INFO, MonomerStoreConfiguration.getInstance().getExternalMonomersPath()
@@ -795,7 +795,9 @@ public class MonomerFactory {
 			Iterator it = monomers.iterator();
 			while (it.hasNext()) {
 				Element monomer = (Element) it.next();
+				
 				Monomer m = MonomerParser.getMonomer(monomer);
+
 				if (MonomerParser.validateMonomer(m)) {
 					idMonomerMap.put(m.getAlternateId(), m);
 				}
