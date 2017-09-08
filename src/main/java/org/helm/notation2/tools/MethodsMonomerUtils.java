@@ -85,8 +85,11 @@ public final class MethodsMonomerUtils {
       MonomerNotation monomerNotation = monomerNotations.get(i);
 
       /* group element */
-      if (monomerNotation instanceof MonomerNotationGroup || monomerNotation instanceof MonomerNotationList) {
-        throw new HELM2HandledException("Functions can't be called for HELM2 objects");
+      if (monomerNotation instanceof MonomerNotationGroup ) {
+    	  items.add(new Monomer(monomerNotation.getType(), monomerNotation.getType().equals("RNA") ? "Branch"
+      	  		+ "" : "Backbone","X", "X"));
+      }else if( monomerNotation instanceof MonomerNotationList){
+    	  throw new HELM2HandledException("Functions can't be called for HELM2 objects");
       } else {
         try {
           int count = Integer.parseInt(monomerNotation.getCount());

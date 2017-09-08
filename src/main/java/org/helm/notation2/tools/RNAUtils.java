@@ -124,7 +124,7 @@ public class RNAUtils {
 			throws HELM2HandledException, RNAUtilsException, ChemistryException {
 		checkRNA(polymer);
 		return FastaFormat
-				.generateFastaFromRNA(MethodsMonomerUtils.getListOfHandledMonomers(polymer.getListMonomers()));
+				.generateFastaFromRNA(MethodsMonomerUtils.getListOfHandledMonomers(polymer.getPolymerElements().getListOfElements()));
 	}
 
 	/**
