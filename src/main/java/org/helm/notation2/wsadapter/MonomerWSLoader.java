@@ -240,6 +240,10 @@ public class MonomerWSLoader {
 					parser.nextToken();
 					currentMonomer.setCanSMILES(parser.getText());
 					break;
+				case "smiles":
+					parser.nextToken();
+					currentMonomer.setCanSMILES(parser.getText());
+					break;
 				case "molfile":
 					parser.nextToken();
 					try {
@@ -259,6 +263,9 @@ public class MonomerWSLoader {
 					currentMonomer.setPolymerType(parser.getText());
 					break;
 				case "attachmentList":
+					currentMonomer.setAttachmentList(deserializeAttachmentList(parser, attachmentDB));
+					break;
+				case "rgroups":
 					currentMonomer.setAttachmentList(deserializeAttachmentList(parser, attachmentDB));
 					break;
 				case "newMonomer":
