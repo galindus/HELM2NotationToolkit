@@ -127,15 +127,15 @@ public class MonomerStoreConfiguration {
    * Resets the configuration to default values.
    */
   private void resetConfigToDefault() {
-    isUseWebservice = false;
+    isUseWebservice = true;
     isUpdateAutomatic = true;
     isUseExternalMonomers = false;
     isUseExternalNucleotides = false;
     setUseExternalAttachments(false);
-    webserviceMonomersURL = "";
-    webserviceMonomersPath = "";
-    webserviceMonomersPutPath = "";
-    webserviceEditorCategorizationURL = "";
+    webserviceMonomersURL = "http://localhost:8080/HELM2MonomerService/rest";
+    webserviceMonomersPath = "monomer/";
+    webserviceMonomersPutPath = "monomer/";
+    webserviceEditorCategorizationURL = "http://localhost:8080";
     webserviceEditorCategorizationPath = "";
     externalNucleotidesPath = "";
     externalMonomersPath = "";

@@ -29,6 +29,7 @@ import java.io.InputStreamReader;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.helm.notation2.exception.EncoderException;
 import org.slf4j.Logger;
@@ -51,7 +52,11 @@ public class MolfileEncoder {
   public static String decode(String encodedString) throws EncoderException {
     String result = null;
     if (null != encodedString) {
-      result = decompress(encodedString);
+    	if (Base64.isBase64(encodedString)) {
+		  result = decompress(encodedString);
+    	} else {
+    	  result = encodedString;
+    	}
       return result;
     } else {
       return null;
@@ -74,7 +79,7 @@ public class MolfileEncoder {
     	IOUtils.closeQuietly(zos);
 	    
     	byte[] bytes = rstBao.toByteArray();
-    	return Base64.encodeToString(bytes,false);
+    	return Base64.encodeBase64String(bytes);
     } catch(Exception e){
     	throw new EncoderException("Molfile could not be compressed. " + str);
    } finally{
@@ -93,8 +98,7 @@ public class MolfileEncoder {
    */
   private static String decompress(String str) throws EncoderException {
     /* First base64 decode the string */
-    String result = null;
-    byte[] bytes = Base64.decode(str);
+    byte[] bytes = Base64.decodeBase64(str);
     GZIPInputStream zi = null;
     try {
       zi = new GZIPInputStream(new ByteArrayInputStream(bytes));

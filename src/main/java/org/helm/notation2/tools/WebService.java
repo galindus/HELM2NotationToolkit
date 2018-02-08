@@ -526,6 +526,19 @@ public class WebService {
 		setMonomerFactoryToDefault(helm);
 		return result;
 	}
+	
+	/**
+	 * method to refresh the monomer cache of the MonomerFactory
+	 * 
+	 * @throws MonomerLoadingException
+	 *             if the MonomerFactory can not be loaded
+	 * @throws ChemistryException
+	 *             if chemistry engine can not be initialized
+	 */
+	public void refreshMonomerCache() throws MonomerLoadingException, ChemistryException {
+		LOG.info("Refreshing monomer cache");
+		MonomerFactory.refreshMonomerCache();
+	}
 
 	/**
 	 * method to set the MonomerFactory to the default one, this is only done in

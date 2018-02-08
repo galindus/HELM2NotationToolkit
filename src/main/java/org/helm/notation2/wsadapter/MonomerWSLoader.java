@@ -228,6 +228,10 @@ public class MonomerWSLoader {
 					parser.nextToken();
 					currentMonomer.setAlternateId(parser.getText());
 					break;
+				case "symbol":
+					parser.nextToken();
+					currentMonomer.setAlternateId(parser.getText());
+					break;
 				case "naturalAnalog":
 					parser.nextToken();
 					currentMonomer.setNaturalAnalog(parser.getText());
