@@ -113,6 +113,21 @@ public class SMILESTest {
     return HELM2NotationUtils.readNotation(notation).getListOfPolymers().get(0);
   }
 
+  public PolymerNotation getPeptideNotationWithBrackets() throws ParserException, JDOMException {
+    String notation = "PEPTIDE1{A.[[*]C(=O)[C@H](C)N([*])C |$_R2;;;;;;_R1;;;$|].A}$$$$V2.0";
+    return HELM2NotationUtils.readNotation(notation).getListOfPolymers().get(0);
+  }
+
+  public PolymerNotation getPeptideNotationWithoutBrackets() throws ParserException, JDOMException {
+    String notation = "PEPTIDE1{A.[*C(=O)[C@H](C)N(*)C |$_R2;;;;;;_R1;;;$|].A}$$$$V2.0";
+    return HELM2NotationUtils.readNotation(notation).getListOfPolymers().get(0);
+  }
+
+  public PolymerNotation getPeptideNotationWithAtomMap() throws ParserException, JDOMException {
+    String notation = "PEPTIDE1{A.[[OH:2]C(=O)[C@H](C)N([H:1])C].A}$$$$V2.0";
+    return HELM2NotationUtils.readNotation(notation).getListOfPolymers().get(0);
+  }
+
   @Test
   public void testSMILES() throws BuilderMoleculeException, CTKException, ChemistryException, ParserException, JDOMException {
     String test =
@@ -156,13 +171,24 @@ public class SMILESTest {
     SMILES.getCanonicalSMILESForPolymer(getSimplePeptideNotation());
 
     SMILES.getCanonicalSMILESForPolymer(getInlineSmilesPeptideNotation());
-
+    
     SMILES.getCanonicalSMILESForPolymer(getSimpleChemNotation());
 
     SMILES.getCanonicalSMILESForPolymer(getSmilesNotation());
     if (Chemistry.getInstance().getChemistry().equals("org.helm.chemtoolkit.chemaxon.ChemaxonManipulator")) {
       SMILES.getCanonicalSMILESForPolymer(getRNANotationWithSalt());
     }
+
+  }
+
+  @Test
+  public void testGetSmilesFormats() throws CTKSmilesException, BuilderMoleculeException, HELM2HandledException, CTKException, ParserException, JDOMException, NotationException, ChemistryException {
+	String canonicalSMILES = "C[C@@H](C(=O)N(C)[C@@H](C)C(=O)N[C@@H](C)C(=O)O)N[H]";
+    Assert.assertEquals(SMILES.getCanonicalSMILESForPolymer(getPeptideNotationWithBrackets()),canonicalSMILES);
+
+    Assert.assertEquals(SMILES.getCanonicalSMILESForPolymer(getPeptideNotationWithoutBrackets()),canonicalSMILES);
+
+    Assert.assertEquals(SMILES.getCanonicalSMILESForPolymer(getPeptideNotationWithAtomMap()),canonicalSMILES);
 
   }
 
