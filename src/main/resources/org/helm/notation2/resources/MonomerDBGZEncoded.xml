@@ -2882,9 +2882,9 @@
       <MonomerName>Alexa Fluor 488</MonomerName>
       <Attachments>
         <Attachment>
-          <AttachmentID>R1-X</AttachmentID>
+          <AttachmentID>R1-H</AttachmentID>
           <AttachmentLabel>R1</AttachmentLabel>
-          <CapGroupName>X</CapGroupName>
+          <CapGroupName>H</CapGroupName>
         </Attachment>
       </Attachments>
     </Monomer>
