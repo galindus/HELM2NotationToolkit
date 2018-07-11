@@ -93,13 +93,14 @@ public final class MethodsMonomerUtils {
       } else {
         try {
           int count = Integer.parseInt(monomerNotation.getCount());
-          if (count == 0 || count > 1) {
+          // #189 github Issue, see https://github.com/PistoiaHELM/HELMWebEditor/issues/189
+          if (count == 0 ) {
             throw new HELM2HandledException("Functions can't be called for HELM2 objects");
           }
 
-          // for (int j = 0; j < count; j++) {
+           for (int j = 0; j < count; j++) {
           items.addAll(Validation.getAllMonomers(monomerNotation, i));
-          // }
+          }
         } catch (NumberFormatException | MonomerException | IOException | NotationException | CTKException e) {
           e.printStackTrace();
           throw new HELM2HandledException("Functions can't be called for HELM2 objects");
@@ -232,7 +233,7 @@ public final class MethodsMonomerUtils {
                 monomer = generateTemporaryMonomer(id, type, info);
               }
             } else {
-            	if(!id.equals("?")){
+            	if(!id.equals("?") && !id.equals("X") && !id.equals("N")){
               throw new MonomerException("Defined Monomer is not in the database and also not valid SMILES " + id);
             	}
             	else{

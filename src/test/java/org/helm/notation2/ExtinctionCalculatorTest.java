@@ -83,7 +83,8 @@ public class ExtinctionCalculatorTest {
 				.setScale(2, BigDecimal.ROUND_DOWN).floatValue(), f);
 	}
 
-	@Test(expectedExceptions = ExtinctionCoefficientException.class)
+	//@Test(expectedExceptions = ExtinctionCoefficientException.class)
+	@Test
 	public void testCalculationRepeatingMonomer()
 			throws ParserException, JDOMException, ExtinctionCoefficientException, ChemistryException {
 		HELM2Notation helm2notation = HELM2NotationUtils.readNotation("PEPTIDE1{C'2'}$$$$V2.0");

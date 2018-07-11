@@ -703,6 +703,10 @@ public final class Validation {
 		}
 		for (Monomer monomerOne : listMonomersOne) {
 			for (Monomer monomerTwo : listMonomersTwo) {
+				
+				if(monomerOne.getCanSMILES().equals("*|X|N") || monomerTwo.getCanSMILES().equals("*|X|N")){
+				throw new AttachmentException("Monomer (canonicalsmiles = *) is undefined and should be defined")	;
+				}
 				/* Rna-Basepair-hydrogen bonds */
 				if (monomerOne.getPolymerType().equals("RNA") && monomerTwo.getPolymerType().equals("RNA")
 						&& not.getrGroupSource().equals("pair") && not.getrGroupTarget().equals("pair")) {
@@ -713,6 +717,7 @@ public final class Validation {
 						LOG.info("RNA strand connection is not valid");
 						throw new AttachmentException("RNA strand connection is not valid");
 					}
+			
 
 					/*
 					 * is the attachment point already occupied by another

@@ -43,6 +43,7 @@ import org.helm.notation2.parser.notation.connection.ConnectionNotation;
 import org.helm.notation2.parser.notation.polymer.HELMEntity;
 import org.helm.notation2.parser.notation.polymer.PolymerNotation;
 import org.jdom2.JDOMException;
+import org.junit.Ignore;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -345,18 +346,19 @@ HELMEntity chem1=c.getTargetId();
 
 	  Validation.validateConnections(helm2);
   }
+
   @Test
   public void testConnectionAmbiguityRNA() throws ParserException, JDOMException, NotationException, ChemistryException, MonomerLoadingException, ValidationException {
 	// String test = "PEPTIDE1{A.A.G}$PEPTIDE1,PEPTIDE1,(1,2):R3-G:?$$$v2.0";
 	  
 	 //String test = "RNA1{R(A)P.R(G)P}$RNA1,RNA1,2:pair-G:pair$$$v2.0";
 	  
-	//String test = "RNA1{R(A)P.R(T)P.R(G)}|RNA2{R(C)P.R(A)P.R(U)}$RNA1,RNA2,8:pair-(5,C):pair$$$V2.0";
+	String test = "RNA1{R(A)P.R(T)P.R(G)}|RNA2{R(C)P.R(A)P.R(U)}$RNA1,RNA2,8:pair-(5,C):pair$$$V2.0";
 	 //String test = "RNA1{R(A)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(G)P.R(C)P.R(C)P.R(C)P.R(C)}|PEPTIDE1{A.G.G.G.K.K.K.K}$RNA1,PEPTIDE1,(1,3):R1-1:R1$$$";
 
 
 	 
-	String test = "CHEM1{?}|PEPTIDE1{A.A.K.K.K.A.A}$CHEM1,PEPTIDE1,1:R1-(3,4,5):R3$$$V2.0";
+	//String test = "CHEM1{?}|PEPTIDE1{A.A.K.K.K.A.A}$CHEM1,PEPTIDE1,1:R1-(3,4,5):R3$$$V2.0";
 	  HELM2Notation helm2 = HELM2NotationUtils.readNotation(test);
 
 	  Validation.validateConnections(helm2);

@@ -226,7 +226,7 @@ public class NucleotideParser {
         } else if (letter == BRANCH_START_SYMBOL) {
           if (i == 0) {
             throw new NotationException(
-                "Invalid Polymer Notation: branch monomer is not allowed at the beginnig of notation");
+                "Invalid Polymer Notation: branch monomer is not allowed at the beginning of notation");
           }
 
           if (prevLetter == BRANCH_END_SYMBOL) {

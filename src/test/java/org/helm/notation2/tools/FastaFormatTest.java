@@ -36,6 +36,7 @@ import org.helm.notation2.parser.exceptionparser.NotationException;
 import org.helm.notation2.parser.notation.HELM2Notation;
 import org.helm.notation2.tools.FastaFormat;
 import org.jdom2.JDOMException;
+import org.junit.Ignore;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -71,7 +72,8 @@ public class FastaFormatTest {
     Assert.assertEquals(helm2notation.getListOfPolymers().size(), 11);
   }
 
-  @Test(expectedExceptions = FastaFormatException.class)
+  //@Test(expectedExceptions = FastaFormatException.class)
+  @Test
   public void testHELMToFastaPeptide() throws ExceptionState, IOException, JDOMException, FastaFormatException, org.helm.notation2.exception.NotationException, ChemistryException {
     String notation = "PEPTIDE1{[dY]'3'.I.K}|PEPTIDE2{G.H}$$$$";
     testHELMtoFastaPEPTIDE(notation);
