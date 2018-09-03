@@ -30,6 +30,7 @@ import org.helm.chemtoolkit.AbstractChemistryManipulator;
 import org.helm.chemtoolkit.AbstractMolecule;
 import org.helm.chemtoolkit.CTKException;
 import org.helm.chemtoolkit.CTKSmilesException;
+import org.helm.chemtoolkit.cdk.CDKManipulator;
 import org.helm.notation2.Attachment;
 import org.helm.notation2.Chemistry;
 import org.helm.notation2.Monomer;
@@ -254,5 +255,16 @@ public final class SMILES {
 		return smiles;
 
 	}
-
+	
+	/**
+	 * returns if structure is connected
+	 * 
+	 * @param molfile
+	 * @return boolean if structure is connected
+	 * @throws CTKException
+	 * @throws ChemistryException
+	 */
+	public static boolean isConnected(String molfile) throws CTKException, ChemistryException {
+		return Chemistry.getInstance().getManipulator().isConnected(molfile);
+	}
 }

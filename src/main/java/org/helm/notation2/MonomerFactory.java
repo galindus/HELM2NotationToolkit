@@ -863,7 +863,12 @@ public class MonomerFactory {
 			for (String monomer : monomers) {
 				Monomer m = monomerMap.get(monomer);
 				logger.info(m.getAlternateId());
+				try {
 				MonomerParser.validateMonomer(m);
+				} catch (Exception e) {
+					LOG.error("Monomer is invalide");
+					monomerDB.remove(monomer);
+				}
 			}
 		}
 		return true;

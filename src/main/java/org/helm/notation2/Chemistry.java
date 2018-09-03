@@ -130,6 +130,7 @@ public final class Chemistry {
       BufferedWriter writer = null;
       BufferedReader reader = null;
       try {
+    	configFile.getParentFile().mkdirs();
         configFile.createNewFile();
         InputStream in = Chemistry.class.getResourceAsStream("/org/helm/notation2/resources/Chemistry.property");
         reader = new BufferedReader(new InputStreamReader(in));
