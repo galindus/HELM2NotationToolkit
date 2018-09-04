@@ -2876,19 +2876,6 @@
       </Attachments>
     </Monomer>
     <Monomer>
-      <MonomerID>Alexa</MonomerID>
-      <MonomerType>Undefined</MonomerType>
-      <PolymerType>CHEM</PolymerType>
-      <MonomerName>Alexa Fluor 488</MonomerName>
-      <Attachments>
-        <Attachment>
-          <AttachmentID>R1-H</AttachmentID>
-          <AttachmentLabel>R1</AttachmentLabel>
-          <CapGroupName>H</CapGroupName>
-        </Attachment>
-      </Attachments>
-    </Monomer>
-    <Monomer>
       <MonomerID>SS3</MonomerID>
       <MonomerSmiles>[H:1]OCCCSSCCCO[H:2]</MonomerSmiles>
       <MonomerMolFile>H4sIAAAAAAAAAJ2Uu05DMQyG9zyFJVhP5EuSE88UMRVQkdgZWRgY+vzYiQqnDUMbK5Gc3/an3APA/uP7+PkFgIkSKpFk3sGvhQDEQGTxTfszVYV3RsRgg4UiV8muYxSp1D2LIhzuzhH/txNFaXUPY6oiG8oLXE3BmCul7ikKbigPt1HW3Ge1cp6jWAWxqFM4UuI6TaGydoqW5p0ob7dQKis7RaKszZuktN1YUmRMPLciilly7ZTCrNMUrsUpOaa0TlI42hHlTqmllKlb1yjsN3YpsShtKVe/ACuys6UL1bZYRtUS66iapKNq5WlUFQgH1SR/85e5Vp7HXPIvYsilNuVLNbflnat7gMPTa0v3iHcHAnvk8XkXwr1Z+AE3KfbnrAQAAA==</MonomerMolFile>

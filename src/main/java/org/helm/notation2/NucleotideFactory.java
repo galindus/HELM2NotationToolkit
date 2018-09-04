@@ -112,10 +112,10 @@ public class NucleotideFactory {
     if (null == instance) {
       // initializeNucleotideTemplates();
       // check for webservice properties file
-      //if (MonomerStoreConfiguration.getInstance().isUseWebservice()) {
-      //  initializeNucleotideTemplatesFromWebService();
       if (MonomerStoreConfiguration.getInstance().isUseExternalNucleotides()) {
         initalizeNucleotideTemplatesFromExternalFile();
+      } else if (MonomerStoreConfiguration.getInstance().isUseWebservice()) {
+          initializeNucleotideTemplatesFromWebService();
       } else {
         initializeNucleotideTemplates();
       }
