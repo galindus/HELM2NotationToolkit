@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import org.helm.notation2.Attachment;
 import org.helm.notation2.Monomer;
 import org.helm.notation2.MonomerFactory;
 import org.helm.notation2.Nucleotide;
@@ -17,11 +16,13 @@ import org.helm.notation2.wsadapter.MonomerWSSaver;
 import org.helm.notation2.wsadapter.NucleotideWSLoader;
 import org.helm.notation2.wsadapter.NucleotideWSSaver;
 import org.jdom2.JDOMException;
-import org.testng.annotations.Test;
+import org.junit.Ignore;
+import org.junit.Test;
 
+@Ignore("This is an integration test that can only be run if the HELMMonomerService is available.")
 public class WebServerTest {
 
-  // @Test
+  @Test
   public void loadNucleotides() throws NotationException, MonomerException, IOException, JDOMException, URISyntaxException {
 
     NucleotideWSLoader n = new NucleotideWSLoader();
@@ -29,7 +30,7 @@ public class WebServerTest {
     System.out.println(map.size());
   }
 
-  // @Test
+  @Test
   public void loadMonomers() throws NotationException, MonomerException, IOException, JDOMException, URISyntaxException, ChemistryException, EncoderException {
     Map<String, org.helm.notation2.Attachment> mon = MonomerFactory.getInstance().getAttachmentDB();
     MonomerWSLoader n = new MonomerWSLoader("PEPTIDE");

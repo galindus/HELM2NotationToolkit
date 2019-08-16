@@ -23,6 +23,8 @@
  */
 package org.helm.notation2.tools;
 
+import static org.testng.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -45,6 +47,7 @@ import org.helm.notation2.exception.NotationException;
 import org.helm.notation2.exception.ParserException;
 import org.helm.notation2.tools.Images;
 import org.jdom2.JDOMException;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ImagesTest {
@@ -178,6 +181,62 @@ public class ImagesTest {
     try (FileOutputStream out = new FileOutputStream("test-output" + File.separator + "TestGenerationImageOfHELMNotationExtendedAttachmentsR.png")) {
       out.write(result);
     }
+  }
+  
+  @Test
+  public void TestGenerationImageOfHELMNotationExtendedAttachmentsUsingStandardAttachmentList() throws ParserException, JDOMException, BuilderMoleculeException, CTKException, IOException, NotationException, ChemistryException, MonomerException {
+	  Monomer testExtended = new Monomer();
+	  testExtended.setPolymerType("CHEM");
+	  testExtended.setMonomerType("Undefined");
+	  testExtended.setCanSMILES("[H:9]CC(C[H:10])C(C[H:11])CCC[H:12]");
+	  testExtended.setName("testEx2");
+	  testExtended.setAlternateId("testEx2");
+	  List<Attachment> attachments = new ArrayList<Attachment>();
+	    Attachment att = new Attachment();
+	    att.setAlternateId("R9-H");
+	    att.setLabel("R9");
+	    att.setCapGroupName("H");
+	    att.setCapGroupSMILES("[*:9][H]");
+	    attachments.add( att);
+	    
+	    att = new Attachment();
+	    att.setAlternateId("R10-H");
+	    att.setLabel("R10");
+	    att.setCapGroupName("H");
+	    att.setCapGroupSMILES("[*:10][H]");
+	    attachments.add( att);
+
+	    att = new Attachment();
+	    att.setAlternateId("R11-H");
+	    att.setLabel("R11");
+	    att.setCapGroupName("H");
+	    att.setCapGroupSMILES("[*:11][H]");
+	    attachments.add( att);
+	    
+	    att = new Attachment();
+	    att.setAlternateId("R12-H");
+	    att.setLabel("R12");
+	    att.setCapGroupName("H");
+	    att.setCapGroupSMILES("[*:12][H]");
+	    attachments.add(att);
+	    
+	   
+	    testExtended.setAttachmentList(attachments);
+	    MonomerFactory.getInstance().getMonomerStore().addMonomer(testExtended);
+	  
+	  String notation = "CHEM1{[testEx2]}|CHEM2{[sDBL]}$CHEM1,CHEM2,1:R9-1:R3$$$V2.0";
+    byte[] result = Images.generateImageHELMMolecule(HELM2NotationUtils.readNotation(notation));
+    System.out.println(result.toString());
+    if (!Files.exists(Paths.get("test-output"))) {
+      Files.createDirectories(Paths.get("test-output"));
+    }
+    try (FileOutputStream out = new FileOutputStream("test-output" + File.separator + "TestGenerationImageOfHELMNotationExtendedAttachments.png")) {
+      out.write(result);
+    }
+    
+    Assert.assertEquals(SMILES.getSMILESForAll(HELM2NotationUtils.readNotation(notation)),"C(C(C[H])C(C[H])CCC[H])OCCCCC(NCC(CNC(CCCCO[H])=O)O[H])=O");
+    
+    
   }
 
 }
