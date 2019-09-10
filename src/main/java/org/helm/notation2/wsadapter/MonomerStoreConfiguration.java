@@ -130,7 +130,7 @@ public class MonomerStoreConfiguration {
     isUseWebservice = true;
     isUpdateAutomatic = true;
     isUseExternalMonomers = false;
-    isUseExternalNucleotides = false;
+    isUseExternalNucleotides = true;
     setUseExternalAttachments(false);
     webserviceMonomersURL = "http://localhost:8080/HELM2MonomerService/rest";
     webserviceMonomersPath = "monomer/";
