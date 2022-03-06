@@ -1,0 +1,18 @@
+{
+    "symbol": "I",
+    "name": "Iodide",
+    "molfile": "PA HELM\n  Mrv1829 03062216072D          \n\n  2  1  0  0  0  0            999 V2000\n   -8.2955    2.6136    0.0000 I   0  0  0  0  0  0  0  0  0  0  0  0\n   -7.4705    2.6136    0.0000 R#  0  0  0  0  0  0  0  0  0  0  0  0\n  1  2  1  0  0  0  0\nM  RGP  1   2   1\nM  END\n",
+    "author": "Pistoia Alliance HELM project",
+    "rgroups": [
+      {
+        "alternateId": "R1-H",
+        "label": "R1",
+        "capGroupName": "H",
+        "capGroupSMILES": "[*:1][H]"
+      }
+    ],
+    "smiles": "[H:1]I",
+    "naturalAnalog": "-",
+    "polymerType": "CHEM",
+    "monomerType": "Undefined"
+  }

@@ -214,7 +214,10 @@ public class MonomerWSLoader {
 			if (JsonToken.START_OBJECT.equals(token)) {
 				currentMonomer = new Monomer();
 			} else if (JsonToken.END_OBJECT.equals(token)) {
-				monomers.put(currentMonomer.getAlternateId(), currentMonomer);
+				//in case the monomer collectoin for a given polymer type is empty
+				if (null != currentMonomer.getAlternateId()) {
+					monomers.put(currentMonomer.getAlternateId(), currentMonomer);
+				}
 			}
 
 			if (fieldName != null) {
