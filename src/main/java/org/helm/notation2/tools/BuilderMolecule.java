@@ -202,7 +202,7 @@ public final class BuilderMolecule {
                       + target + ":"
                       + rgroupTwo));
           one.getRgroupMap().remove(connection.getSourceId().getId() + ":" + source + ":" + rgroupOne);
-          one.getRgroupMap().remove(connection.getSourceId().getId() + ":" + source + ":" + rgroupTwo);
+          one.getRgroupMap().remove(connection.getTargetId().getId() + ":" + target + ":" + rgroupTwo);
           mapMolecules.put(idFirst, one);
         } catch (CTKException e) {
           throw new BuilderMoleculeException(e.getMessage());
