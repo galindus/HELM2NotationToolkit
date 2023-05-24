@@ -195,12 +195,15 @@ public final class BuilderMolecule {
       /* Self cycle */
       if (idFirst.equals(idSecond)) {
         try {
-          LOG.debug("Self-cycle connection: " + connection.toString());
+          LOG.debug("Creating self-cycle connection: " + connection.toString());
           molecule =
               Chemistry.getInstance().getManipulator().merge(one.getMolecule(), one.getRgroupMap().get(connection.getSourceId().getId() + ":" + source + ":"
                   + rgroupOne), one.getMolecule(), one.getRgroupMap().get(connection.getTargetId().getId() + ":"
                       + target + ":"
                       + rgroupTwo));
+          LOG.debug("Removing R-group from source: " + connection.getSourceId().getId() + ":" + source + ":" + rgroupOne +
+                  ", and from target: " + connection.getTargetId().getId() + ":" + target + ":" + rgroupTwo);
+
           one.getRgroupMap().remove(connection.getSourceId().getId() + ":" + source + ":" + rgroupOne);
           one.getRgroupMap().remove(connection.getTargetId().getId() + ":" + target + ":" + rgroupTwo);
           mapMolecules.put(idFirst, one);
@@ -219,6 +222,9 @@ public final class BuilderMolecule {
           RgroupStructure actual = new RgroupStructure();
           actual.setMolecule(molecule);
           Map<String, IAtomBase> rgroupMap = new HashMap<String, IAtomBase>();
+          LOG.debug("Removing R-group from source: " + connection.getSourceId().getId() + ":" + source + ":" + rgroupOne +
+                  ", and from target: " + connection.getTargetId().getId() + ":" + target + ":" + rgroupTwo);
+
           one.getRgroupMap().remove(connection.getSourceId().getId() + ":" + source + ":" + rgroupOne);
           two.getRgroupMap().remove(connection.getTargetId().getId() + ":" + target + ":" + rgroupTwo);
           rgroupMap.putAll(one.getRgroupMap());
